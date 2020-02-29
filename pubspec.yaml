@@ -1,0 +1,121 @@
+name: wechat
+description: A WeChat app.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+
+  flutter_webview_plugin: "^0.2.1+2"
+  date_format: "^1.0.4"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    # 底部导航栏4个按钮图标
+    - images/loading.jpg
+    #- images/contact_list_normal.png
+    - images/tabbar_contacts@2x.png
+    #- images/contact_list_pressed.png
+    - images/tabbar_contactsHL@2x.png
+    #- images/find_normal.png
+    - images/tabbar_discover@2x.png
+    - images/tabbar_discoverHL@2x.png
+    #- images/profile_normal.png
+    #- images/profile_pressed.png
+    - images/tabbar_me@2x.png
+    - images/tabbar_meHL@2x.png
+    #- images/weixin_normal.png
+    - images/tabbar_mainframe@2x.png
+    #- images/weixin_pressed.png
+    - images/tabbar_mainframeHL@2x.png
+
+    # 右上角➕弹出菜单
+    - images/TypeSelectorBtn_Black@2x.png # + 号
+    - images/TypeSelectorBtnHL_Black@2x.png
+    - images/contacts_add_newmessage@2x.png # 发起群聊
+    - images/contacts_add_friend@2x.png # 添加朋友
+    - images/contacts_add_scan@2x.png # 扫一扫
+
+    # 通讯录
+    - images/add_friend_icon_offical@2x.png
+    - images/add_friend_icon_addgroup@2x.png
+
+    # 发现
+    - images/Action_Moments@2x.png
+    - images/contacts_add_shake@2x.png
+    - images/Plugins_Shake@2x.png
+    - images/Plugins_Shake_avatar@2x.png
+    - images/Userguide_Gamecenter_icon@2x.png
+
+    # 我
+    - images/Shake_icon_cardPack@2x.png # 卡包
+    - images/MyCardPackageIcon@2x.png
+    - images/Shake_icon_cardPackHL@2x.png
+    - images/Action_MyFavAdd@2x.png # 收藏
+    - images/MoreMyFavorites.png
+    - images/MoreMyFavorites@2x.png
+    - images/MoreMyAlbum@2x.png # 相册
+    - images/Userguide_Emostore_icon@2x.png # 表情
+    - images/MoreGame.png # 游戏
+    - images/barbuttonicon_set.png # 设置
+    - images/MoreSetting@2x.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
