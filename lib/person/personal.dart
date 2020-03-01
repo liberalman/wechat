@@ -19,7 +19,7 @@ class Personal extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(left: 12.0, right: 15.0),
-                    child: Image.asset('images/tabbar_me@2x.png', width: 70.0, height: 70.0,),
+                    child: Image.asset('images/avatar3.jpg', width: 70.0, height: 70.0,),
                   ),
                   Expanded(
                     child: Column(

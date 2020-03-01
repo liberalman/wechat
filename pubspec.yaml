@@ -27,9 +27,11 @@ dependencies:
   flutter_webview_plugin: "^0.2.1+2"
   date_format: "^1.0.4"
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mqtt_client: ^6.0.0
 
 
 # For information on the generic Dart part of this file, see the
@@ -93,6 +95,11 @@ flutter:
     - images/MoreGame.png # 游戏
     - images/barbuttonicon_set.png # 设置
     - images/MoreSetting@2x.png
+
+    # avatar
+    - images/avatar1.jpg
+    - images/avatar2.jpg
+    - images/avatar3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
