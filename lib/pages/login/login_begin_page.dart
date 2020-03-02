@@ -11,6 +11,7 @@ import './register_page.dart';
 import '../../im/login_handle.dart';
 import '../../pages/settings/language_page.dart';
 
+// 选择语言、登录、注册按钮显示页面，通过点击不同的按钮跳转到对应功能页面
 class LoginBeginPage extends StatefulWidget {
   @override
   _LoginBeginPageState createState() => new _LoginBeginPageState();
@@ -21,7 +22,7 @@ class _LoginBeginPageState extends State<LoginBeginPage> {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        // 右上角弹出菜单按钮
+        // 右上角的选择语言按钮
         new Container(
           alignment: Alignment.topRight,
           child: new InkWell(
@@ -39,7 +40,7 @@ class _LoginBeginPageState extends State<LoginBeginPage> {
         // 菜单列表
         new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children: [
             new ComMomButton(
               text: S.of(context).login,
               margin: EdgeInsets.only(left: 10.0),
@@ -65,7 +66,6 @@ class _LoginBeginPageState extends State<LoginBeginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final model = Provider.of<GlobalModel>(context); // 拿到全局配置信息
 
     var bodyMain = new Container(

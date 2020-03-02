@@ -19,6 +19,32 @@ class S implements WidgetsLocalizations {
   String get login => "Login";
   String get language => "Language";
   String get multiLanguage => "Multi-Language";
+  String get mobileNumberLogin => "Mobile number login";
+  String get selectCountry => "Select country or region";
+  String get phoneCity => "Country";
+  String get nextStep => "Next step";
+  String get notOpen => "Not yet open";
+  String get userLoginTip => "WeChat number / QQ number / email";
+  String get phoneNumber => "Phone";
+  String get phoneNumberHint => "Please fill in your phone number";
+
+  // country
+  String get australia => "Australia";
+  String get canada => "Canada";
+  String get chinaMainland => "China Mainland";
+  String get contacts => "Contacts";
+  String get discover => "Discover";
+  String get emergencyFreeze => "freeze";
+  String get retrievePW => "Retrieve";
+  String get weChatSecurityCenter => "Security";
+  String get exampleName => "For example: Chen Chen";
+  String get hongKong => "Hong Kong";
+  String get languageTitle => "Change Language";
+  String get macao => "Macao";
+  String get singapore => "Singapore";
+  String get taiwan => "Taiwan";
+  String get uS => "United States";
+
 }
 
 class en extends S {

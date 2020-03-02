@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         scaffoldBackgroundColor: bgColor,
         hintColor: Colors.grey.withOpacity(0.3), // hint提示，Opacity不透明性
-        splashColor: Colors.transparent, // splash光斑
+        splashColor: Colors.transparent, // splash光斑static final String appName = "app_name";
         canvasColor: Colors.transparent,
       ),
       debugShowCheckedModeBanner: false,

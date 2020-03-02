@@ -13,6 +13,15 @@ class SharedUtil {
     return _instance;
   }
 
+  Future<String> getString(String key) async {
+    if (key == Keys.account) {
+      return StorageManager.sharedPreferences.getString(key);
+    }
+    String account =
+        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
+    return StorageManager.sharedPreferences.getString(key + account);
+  }
+
   Future saveString(String key, String value) async {
     if (Keys.account == key) {
       await StorageManager.sharedPreferences.setString(key, value);
@@ -35,5 +44,11 @@ class SharedUtil {
     String account =
         StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
     await StorageManager.sharedPreferences.setStringList(key + account, list);
+  }
+
+  Future saveBoolean(String key, bool value) async {
+    String account =
+        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
+    await StorageManager.sharedPreferences.setBool(key + account, value);
   }
 }

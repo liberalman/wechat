@@ -6,4 +6,6 @@ class Keys {
   static final String nickName = "nickname";
   static final String avatar = 'avatar';
   static final String gender = 'gender';
+  static final String area = "area";
+  static final String hasLogged = "hasLogged";
 }
