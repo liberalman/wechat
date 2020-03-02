@@ -24,3 +24,13 @@ Future<dynamic> routePushAndRemove(Widget widget) {
   );
   return navGK.currentState.pushAndRemoveUntil(route, (route) => route == null);
 }
+
+popToRootPage() {
+  navGK.currentState.popUntil(ModalRoute.withName('/'));
+}
+
+popToHomePage() {
+  navGK.currentState.maybePop();
+  navGK.currentState.maybePop();
+  navGK.currentState.maybePop();
+}

@@ -37,6 +37,7 @@ dev_dependencies:
   shared_preferences: 0.5.2+2
   provider: 3.0.0+1
   toast: 0.1.5
+  cached_network_image: 2.0.0 # 2.0(最新)版本flutter
 
 
 # For information on the generic Dart part of this file, see the
@@ -54,6 +55,7 @@ flutter:
   assets:
     # background image
     - assets/images/bsc.webp
+    - assets/images/bar_close.png
 
     # 底部导航栏4个按钮图标
     #- images/contact_list_normal.png

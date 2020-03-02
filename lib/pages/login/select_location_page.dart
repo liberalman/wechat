@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wechat/ui/bar/common_bar.dart';
 import '../../generated/i18n.dart';
 
+// 选择手机号归属国家，返回对应国家的手机号前缀，比如中国+86
 class SelectLocationPage extends StatefulWidget {
   @override
   _SelectLocationPageState createState() => _SelectLocationPageState();

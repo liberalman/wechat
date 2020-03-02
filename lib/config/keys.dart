@@ -8,4 +8,5 @@ class Keys {
   static final String gender = 'gender';
   static final String area = "area";
   static final String hasLogged = "hasLogged";
+  static final String contacts = "contacts";
 }

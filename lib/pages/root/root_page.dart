@@ -7,9 +7,26 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return new Scaffold(
+      key: scaffoldGK,
+      body: new RootTabBar(pages: pages, currentIndex: 0),
+    );
+  }
+}
+
+class LoadImage extends StatelessWidget {
+  final String img;
+
+  LoadImage(this.img);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: EdgeInsets.only(bottom: 2.0),
+      child: new Image.asset(img, fit: BoxFit.cover, gaplessPlayback: true),
+    );
   }
 }

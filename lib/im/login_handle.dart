@@ -30,8 +30,8 @@ Future<void> login(BuildContext context, String userName) async {
       model.goToLogin = false;
       await SharedUtil.getInstance().saveString(Keys.account, userName);
       await SharedUtil.getInstance().saveBoolean(Keys.hasLogged, true);
-      model.refresh();
-      await routePushAndRemove(new RootPage());
+      model.refresh(); // 刷新用户数据
+      await routePushAndRemove(new RootPage()); // 返回主页
     } else {
       print('error::' + result.toString());
     }

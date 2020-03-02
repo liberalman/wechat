@@ -56,7 +56,7 @@ class GlobalModel extends ChangeNotifier {
     /*final data = await getUsersProfile([account]);
     if (null == data)
       return;*/
-    String data = '{"nickname":"Jacky","avatar":"","gender":0}';
+    String data = '[{"nickname":"Jacky","avatar":"","gender":0}]';
     List<dynamic> result = json.decode(data);
     if (Platform.isAndroid) {
       nickName = result[0]['nickname'];

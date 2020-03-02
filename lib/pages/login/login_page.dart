@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           onPressed: () async {
+            // 选择手机号归属国家
             final result = await routePush(new SelectLocationPage());
             if (result == null) return;
             model.area = result;
@@ -139,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
             if (_textEditingController.text == '') {
               showToast(context, '随便输入三位或以上');
             } else if (_textEditingController.text.length >= 3) {
+              // 正式执行登录操作，链接后台服务器验证，成功则返回用户信息
               login(context, _textEditingController.text);
             } else {
               showToast(context, '请输入三位或以上');
