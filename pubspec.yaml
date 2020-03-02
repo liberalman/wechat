@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -32,6 +34,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mqtt_client: ^6.0.0
+  shared_preferences: 0.5.2+2
+  provider: 3.0.0+1
+  toast: 0.1.5
 
 
 # For information on the generic Dart part of this file, see the
@@ -47,8 +52,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    # background image
+    - assets/images/bsc.webp
+
     # 底部导航栏4个按钮图标
-    - images/loading.jpg
     #- images/contact_list_normal.png
     - images/tabbar_contacts@2x.png
     #- images/contact_list_pressed.png
@@ -100,6 +107,8 @@ flutter:
     - images/avatar1.jpg
     - images/avatar2.jpg
     - images/avatar3.jpg
+
+    - assets/images/bsc.webp
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

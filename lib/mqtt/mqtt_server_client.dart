@@ -30,7 +30,7 @@ class Mqtt {
   MqttServerClient client;
 
   Mqtt._() {
-    client = MqttServerClient('localhost', 'clientId-yef9Po1ZaJ');
+    client = MqttServerClient('140.143.134.114', 'clientId-yef9Po1ZaJ');
   }
 
   static Mqtt getInstance() {

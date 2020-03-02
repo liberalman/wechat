@@ -1,18 +1,70 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:wechat/config/const.dart';
+import './config/storage_manager.dart';
 import './chat/message_page.dart';
 import './contacts/contacts.dart';
 import './found/found.dart';
 import './person/personal.dart';
+import './provider/global_model.dart';
+import './generated/i18n.dart';
+import './pages/login/login_begin_page.dart';
+import './pages/root/root_page.dart';
+import './common/route.dart';
 
 // 右上角点击➕号后弹出的菜单项
 enum ItemType { GroupChat, AddFrinds, QrCode, Payments, Help }
 
-class App extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  MainState createState() => MainState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class MainState extends State<App> {
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) {
+      //StorageManager.initAutoLogin();
+    } else {
+      debugPrint('IOS自动登陆开发中');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 使用Provider设置GlobalModel的值，初始化语言什么的
+    final model = Provider.of<GlobalModel>(context)..setContext(context);
+
+    return new MaterialApp(
+      navigatorKey: navGK, // 做导航用的全局key，存储的是导航条状态
+      title: model.appName,
+      theme: ThemeData(
+        scaffoldBackgroundColor: bgColor,
+        hintColor: Colors.grey.withOpacity(0.3), // hint提示，Opacity不透明性
+        splashColor: Colors.transparent, // splash光斑
+        canvasColor: Colors.transparent,
+      ),
+      debugShowCheckedModeBanner: false,
+      // 国际化配置
+      localizationsDelegates: [
+        S.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      locale: model.currentLocale,
+      // 若已登录，则转到登录后的根视图页面；否则跳转需要登录注册的页面
+      home: model.goToLogin ? new LoginBeginPage() : new RootPage(),
+    );
+  }
+
+/*
   var _currentIndex = 3;
 
   MessagePage message; // 微信消息页
@@ -180,5 +232,5 @@ class MainState extends State<App> {
       ),
       body: currentPage(),
     );
-  }
+  }*/
 }

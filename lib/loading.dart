@@ -23,7 +23,7 @@ class _LoadingState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      child: Image.asset("images/loading.jpg"), // 启动页照片
+      child: Image.asset("assets/images/bsc.webp"), // 启动页照片
     );
   }
 }
