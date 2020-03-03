@@ -38,6 +38,22 @@ dev_dependencies:
   provider: 3.0.0+1
   toast: 0.1.5
   cached_network_image: 2.0.0 # 2.0(最新)版本flutter
+  image_picker: 0.6.1+2
+  webview_flutter: 0.3.14+1
+  photo_view: 0.4.2
+  flutter_sound: 1.7.0
+  audioplayers: 0.13.3
+  flutter_image_compress: ^0.6.5+1
+  camera: 0.5.7+1
+  url_launcher: 5.2.7
+  open_file: 2.0.3
+  dio: 2.2.2
+  #extended_text_library: ^0.5.3
+  # extended_text: 0.6.6
+  extended_text_library: ^0.3.0
+  extended_text: ^0.4.7
+  video_player: 0.10.0
+  package_info: 0.4.0+2
 
 
 # For information on the generic Dart part of this file, see the

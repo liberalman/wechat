@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../config/const.dart';
 import '../../common/check.dart';
 import '../../ui/ui.dart';
+import '../../tools/wechat_flutter.dart';
 
 class PersonCard extends StatelessWidget {
   final String imageUrl;

@@ -7,6 +7,7 @@ import '../config/keys.dart';
 import '../common/route.dart';
 import '../pages/root/root_page.dart';
 import '../provider/global_model.dart';
+import '../pages/login/login_begin_page.dart';
 
 Future<void> init(BuildContext context) async {
   try{
@@ -37,5 +38,28 @@ Future<void> login(BuildContext context, String userName) async {
     }
   } on PlatformException {
     showToast(context, '你已登录或者其他错误');
+  }
+}
+
+Future<void> loginOut(BuildContext context) async {
+  final model = Provider.of<GlobalModel>(context);
+
+  try {
+    //var result = await im.imLogout();
+    var result = "ucc";
+    if (result.toString().contains('ucc')) {
+      showToast(context, '登出成功');
+    } else {
+      print('error::' + result.toString());
+    }
+    model.goToLogin = true;
+    model.refresh();
+    await SharedUtil.getInstance().saveBoolean(Keys.hasLogged, false);
+    await routePushAndRemove(new LoginBeginPage());
+  } on PlatformException {
+    model.goToLogin = true;
+    model.refresh();
+    await SharedUtil.getInstance().saveBoolean(Keys.hasLogged, false);
+    await routePushAndRemove(new LoginBeginPage());
   }
 }

@@ -5,15 +5,16 @@ import '../wechat_friends/page/wechat_friends_circle.dart';
 import '../../provider/global_model.dart';
 import '../../ui/dialog/friend_item_dialog.dart';
 import '../../ui/item/contact_card.dart';
-import '../../ui/orther/button_row.dart';
-import '../../ui/orther/label_row.dart';
+import '../../ui/other/button_row.dart';
+import '../../ui/other/label_row.dart';
 import '../../ui/ui.dart';
 import '../../ui/bar/common_bar.dart';
 import '../../config/const.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dim_example/tools/wechat_flutter.dart';
+import '../../common/route.dart';
+import '../../tools/wechat_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../ui/dialog/show_toast.dart';
 
 class ContactsDetailsPage extends StatefulWidget {
   final String avatar, title, id;

@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/route.dart';
+import '../../common/check.dart';
+import '../../generated/i18n.dart';
 import '../contacts/group_launch_page.dart';
 import '../home/search_page.dart';
 import '../settings/language_page.dart';
@@ -9,6 +12,8 @@ import '../../ui/view/indicator_page_view.dart';
 import '../more/add_friend_page.dart';
 import '../../config/const.dart';
 import '../../ui/w_pop/w_popup_menu.dart';
+import '../../ui/bar/common_bar.dart';
+import '../../ui/web/web_view.dart';
 
 typedef CheckLogin(index);
 
@@ -95,7 +100,7 @@ class RootTabBarState extends State<RootTabBar> {
           onTap: () => routeFadePush(new SearchPage()), // 搜索页
         ),
         new WPopupMenu(
-          menuWidth: winWidth(context) / 2.5,
+          menuWidth: MediaQuery.of(context).size.width / 2.5,
           alignment: Alignment.center,
           onValueChanged: (String value) {
             if (!strNoEmpty(value)) return;

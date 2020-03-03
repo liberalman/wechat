@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:dim_example/pages/wechat_friends/chat_style.dart';
-import 'package:dim_example/pages/wechat_friends/from.dart';
-import 'package:dim_example/pages/wechat_friends/ui/load_view.dart';
-import 'package:dim_example/tools/wechat_flutter.dart';
+import '../chat_style.dart';
+import '../from.dart';
+import '../ui/load_view.dart';
+import '../../../tools/wechat_flutter.dart';
+import '../../../common/win_media.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

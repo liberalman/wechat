@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-export 'package:cached_network_image/cached_network_image.dart';
-import '../../common/check.dart';
-import '../../config/const.dart';
+import '../../tools/wechat_flutter.dart';
 
 class ImageView extends StatelessWidget {
   final String img;

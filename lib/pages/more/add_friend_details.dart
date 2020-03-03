@@ -42,7 +42,7 @@ class _AddFriendsDetailsState extends State<AddFriendsDetails> {
       ),
       new LabelRow(
         label: '个性签名',
-        labelWidth: winWidth(context) / 4.5,
+        labelWidth: MediaQuery.of(context).size.width / 4.5,
         isRight: false,
         isLine: true,
         value: '这是我的签名',

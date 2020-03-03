@@ -24,6 +24,27 @@ class VerticalLine extends StatelessWidget {
   }
 }
 
+class HorizontalLine extends StatelessWidget {
+  final double height;
+  final Color color;
+  final double horizontal;
+
+  HorizontalLine({
+    this.height = 0.5,
+    this.color = const Color(0xFFEEEEEE),
+    this.horizontal = 0.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: height,
+      color: color,
+      margin: new EdgeInsets.symmetric(horizontal: horizontal),
+    );
+  }
+}
+
 class Space extends StatelessWidget {
   final double width;
   final double height;

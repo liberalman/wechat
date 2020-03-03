@@ -9,7 +9,7 @@ import '../../tools/shared_util.dart';
 import '../../config/keys.dart';
 import '../../common/check.dart';
 import '../../config/const.dart';
-import 'package:dim/pinyin/pinyin_helper.dart';
+//import 'package:dim/pinyin/pinyin_helper.dart';
 
 class Contact {
   Contact({
@@ -61,8 +61,8 @@ class ContactsPageData {
             new Contact(
               avatar: !strNoEmpty(avatar) ? defIcon : avatar,
               name: !strNoEmpty(remark) ? nickName : remark,
-              nameIndex:
-              PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
+              //nameIndex:
+              //PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
               identifier: identifier,
             ),
           );
@@ -78,8 +78,8 @@ class ContactsPageData {
             new Contact(
               avatar: !strNoEmpty(avatar) ? defIcon : avatar,
               name: !strNoEmpty(remark) ? nickName : remark,
-              nameIndex:
-              PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
+              //nameIndex:
+              //PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
               identifier: identifier,
             ),
           );

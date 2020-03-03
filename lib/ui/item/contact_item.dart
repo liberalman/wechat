@@ -1,9 +1,9 @@
-import 'package:dim_example/pages/contacts/all_label_page.dart';
-import 'package:dim_example/pages/contacts/contacts_details_page.dart';
-import 'package:dim_example/pages/contacts/group_list_page.dart';
-import 'package:dim_example/pages/contacts/new_friend_page.dart';
-import 'package:dim_example/pages/contacts/public_page.dart';
 import 'package:flutter/material.dart';
+import '../../pages/contacts/all_label_page.dart';
+import '../../pages/contacts/contacts_details_page.dart';
+import '../../pages/contacts/group_list_page.dart';
+import '../../pages/contacts/new_friend_page.dart';
+import '../../pages/contacts/public_page.dart';
 import '../../config/contacts.dart';
 import '../../ui/view/image_view.dart';
 import '../../config/const.dart';

@@ -27,6 +27,7 @@ class S implements WidgetsLocalizations {
   String get userLoginTip => "WeChat number / QQ number / email";
   String get phoneNumber => "Phone";
   String get phoneNumberHint => "Please fill in your phone number";
+  String get me => "Me";
 
   // country
   String get australia => "Australia";
@@ -44,7 +45,7 @@ class S implements WidgetsLocalizations {
   String get singapore => "Singapore";
   String get taiwan => "Taiwan";
   String get uS => "United States";
-
+  String get weChat => "WeChat";
 }
 
 class en extends S {

@@ -23,3 +23,16 @@ bool isNetWorkImg(String img) {
 bool isAssetsImg(String img) {
   return img.startsWith('asset') || img.startsWith('assets');
 }
+
+/// 字符串不为空
+bool mapNoEmpty(Map value) {
+  if (value == null) return false;
+  return value.isNotEmpty;
+}
+
+///去除小数点
+String removeDot(v) {
+  String vStr = v.toString().replaceAll('.', '');
+
+  return vStr;
+}

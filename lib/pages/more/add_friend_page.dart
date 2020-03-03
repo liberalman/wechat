@@ -1,20 +1,24 @@
 import 'dart:convert';
-
-import 'package:dim_example/im/entity/i_person_info_entity.dart';
-import 'package:dim_example/im/entity/person_info_entity.dart';
-import 'package:dim_example/pages/mine/code_page.dart';
-import 'package:dim_example/pages/root/user_page.dart';
-import 'package:dim_example/provider/global_model.dart';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dim_example/im/info_handle.dart';
-import 'package:dim_example/pages/more/add_friend_details.dart';
-
-import 'package:dim_example/tools/wechat_flutter.dart';
-import 'package:dim_example/ui/view/list_tile_view.dart';
-import 'package:dim_example/ui/view/search_main_view.dart';
-import 'package:dim_example/ui/view/search_tile_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../common/route.dart';
+import '../../config/const.dart';
+import '../../common/check.dart';
+import '../../im/entity/i_person_info_entity.dart';
+import '../../im/entity/person_info_entity.dart';
+import '../mine/code_page.dart';
+import '../../pages/root/user_page.dart';
+import '../../provider/global_model.dart';
+import '../../im/info_handle.dart';
+import '../../pages/more/add_friend_details.dart';
+import '../../ui/view/list_tile_view.dart';
+import '../../ui/view/search_main_view.dart';
+import '../../ui/view/search_tile_view.dart';
+import '../../ui/ui.dart';
+import '../../ui/bar/common_bar.dart';
 
 class AddFriendPage extends StatefulWidget {
   @override
@@ -119,7 +123,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
       return [
         new Container(
           color: Colors.white,
-          width: winWidth(context),
+          width: MediaQuery.of(context).size.width,
           height: 110.0,
           alignment: Alignment.center,
           child: new Text(
@@ -131,8 +135,8 @@ class _AddFriendPageState extends State<AddFriendPage> {
         new SearchTileView(searchC.text, type: 1),
         new Container(
           color: Colors.white,
-          width: winWidth(context),
-          height: (winHeight(context) - 185 * 1.38),
+          width: MediaQuery.of(context).size.width,
+          height: (MediaQuery.of(context).size.height - 185 * 1.38),
         )
       ];
     } else {
@@ -143,10 +147,10 @@ class _AddFriendPageState extends State<AddFriendPage> {
         ),
         new Container(
           color: strNoEmpty(searchC.text) ? Colors.white : appBarColor,
-          width: winWidth(context),
+          width: MediaQuery.of(context).size.width,
           height: strNoEmpty(searchC.text)
-              ? (winHeight(context) - 65 * 2.1) - winKeyHeight(context)
-              : winHeight(context),
+              ? (MediaQuery.of(context).size.height - 65 * 2.1) - MediaQuery.of(context).viewInsets.bottom
+              : MediaQuery.of(context).size.height,
         )
       ];
     }
@@ -160,7 +164,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
 
   getUser() async {
     if (Platform.isAndroid) {
-      currentUser = await im.getCurrentLoginUser();
+      //currentUser = await im.getCurrentLoginUser();
     } else {
       currentUser = null;
     }
@@ -183,7 +187,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
         IPersonInfoEntity model = IPersonInfoEntity.fromJson(dataMap[0]);
         if (strNoEmpty(model.allowType.toString())) {
           routePush(new AddFriendsDetails('search', model.identifier,
-              model.faceURL, model.nickname, model.gender));
+              model.avatar, model.nickname, model.gender));
         } else {
           isResult = true;
         }

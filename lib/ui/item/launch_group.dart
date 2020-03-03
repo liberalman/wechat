@@ -1,4 +1,4 @@
-import 'package:dim_example/pages/contacts/group_select_page.dart';
+import '../../pages/contacts/group_select_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/const.dart';
