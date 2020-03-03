@@ -48,10 +48,7 @@ dev_dependencies:
   url_launcher: 5.2.7
   open_file: 2.0.3
   dio: 2.2.2
-  #extended_text_library: ^0.5.3
-  # extended_text: 0.6.6
-  extended_text_library: ^0.3.0
-  extended_text: ^0.4.7
+  extended_text: 0.6.6
   video_player: 0.10.0
   package_info: 0.4.0+2
 
@@ -72,6 +69,17 @@ flutter:
     # background image
     - assets/images/bsc.webp
     - assets/images/bar_close.png
+    - assets/images/tabbar_contacts_c.webp
+    - assets/images/tabbar_contacts_s.webp
+    - assets/images/tabbar_discover_c.webp
+    - assets/images/tabbar_discover_s.webp
+    - assets/images/tabbar_chat_c.webp
+    - assets/images/tabbar_chat_s.webp
+    - assets/images/tabbar_me_c.webp
+    - assets/images/tabbar_me_s.webp
+    - assets/images/def_avatar.png
+    - assets/images/search_black.webp
+    - assets/images/search_white.png
 
     # 底部导航栏4个按钮图标
     #- images/contact_list_normal.png
