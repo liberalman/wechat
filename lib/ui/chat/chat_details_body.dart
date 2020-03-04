@@ -4,11 +4,12 @@ import '../view/indicator_page_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+// 聊天框
 class ChatDetailsBody extends StatelessWidget {
-  final ScrollController sC;
+  final ScrollController scrollController;
   final List<ChatData> chatData;
 
-  ChatDetailsBody({this.sC,this.chatData});
+  ChatDetailsBody({this.scrollController, this.chatData});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +17,12 @@ class ChatDetailsBody extends StatelessWidget {
       child: new ScrollConfiguration(
         behavior: MyBehavior(),
         child: new ListView.builder(
-          controller: sC,
+          controller: scrollController,
           padding: EdgeInsets.all(8.0),
           reverse: true,
           itemBuilder: (context, int index) {
             ChatData model = chatData[index];
-            return new SendMessageView(model);
+            return new SendMessageView(model); // 消息输入框
           },
           itemCount: chatData.length,
           dragStartBehavior: DragStartBehavior.down,

@@ -22,11 +22,11 @@ class PersonInfoEntity {
   int gender;
   int level;
   String nickName;
+  String avatar;
   int language;
   PersonInfoCustominfo customInfo;
   String selfSignature;
   dynamic allowType;
-  String faceUrl;
   String location;
   PersonInfoCustominfouint customInfoUint;
 
@@ -41,7 +41,7 @@ class PersonInfoEntity {
         this.customInfo,
         this.selfSignature,
         this.allowType,
-        this.faceUrl,
+        this.avatar,
         this.location,
         this.customInfoUint});
 
@@ -58,7 +58,7 @@ class PersonInfoEntity {
         : null;
     selfSignature = json['selfSignature'];
     allowType = json['allowType'];
-    faceUrl = json['faceUrl'];
+    avatar = json['avatar'];
     location = json['location'];
     customInfoUint = json['customInfoUint'] != null
         ? new PersonInfoCustominfouint.fromJson(json['customInfoUint'])
@@ -79,7 +79,7 @@ class PersonInfoEntity {
     }
     data['selfSignature'] = this.selfSignature;
     data['allowType'] = this.allowType;
-    data['faceUrl'] = this.faceUrl;
+    data['avatar'] = this.avatar;
     data['location'] = this.location;
     if (this.customInfoUint != null) {
       data['customInfoUint'] = this.customInfoUint.toJson();

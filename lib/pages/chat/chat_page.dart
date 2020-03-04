@@ -41,7 +41,7 @@ class _ChatPageState extends State<ChatPage> {
 
   TextEditingController _textController = TextEditingController();
   FocusNode _focusNode = new FocusNode();
-  ScrollController _sC = ScrollController();
+  ScrollController scrollController = ScrollController();
   PageController pageC = new PageController();
 
   @override
@@ -49,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     getChatMsgData();
 
-    _sC.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
+    scrollController.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
     initPlatformState();
     Notice.addListener(WeChatActions.msg(), (v) => getChatMsgData());
   }
@@ -174,15 +174,15 @@ class _ChatPageState extends State<ChatPage> {
     }
     var body = [
       chatData != null
-          ? new ChatDetailsBody(sC: _sC, chatData: chatData)
+          ? new ChatDetailsBody(scrollController: scrollController, chatData: chatData) // 创建聊天框界面
           : new Spacer(),
       new ChatDetailsRow(
         voiceOnTap: () => onTapHandle(ButtonType.voice),
         isVoice: _isVoice,
         edit: edit,
-        more: new ChatMoreIcon(
+        more: new ChatMoreIcon( // 底部那个输入框栏
           value: _textController.text,
-          onTap: () => _handleSubmittedData(_textController.text),
+          onTap: () => _handleSubmittedData(_textController.text), // 发送消息
           moreTap: () => onTapHandle(ButtonType.more),
         ),
         id: widget.id,
@@ -227,6 +227,6 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     super.dispose();
     canCelListener();
-    _sC.dispose();
+    scrollController.dispose();
   }
 }

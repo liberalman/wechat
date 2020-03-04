@@ -14,6 +14,7 @@ import './generated/i18n.dart';
 import './pages/login/login_begin_page.dart';
 import './pages/root/root_page.dart';
 import './common/route.dart';
+import './mqtt/mqtt_server_client.dart';
 
 // 右上角点击➕号后弹出的菜单项
 enum ItemType { GroupChat, AddFrinds, QrCode, Payments, Help }
@@ -29,10 +30,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     if (Platform.isAndroid) {
-      //StorageManager.initAutoLogin();
+      StorageManager().initAutoLogin();
     } else {
       debugPrint('IOS自动登陆开发中');
     }
+    Mqtt mqtt = Mqtt.getInstance();
   }
 
   @override

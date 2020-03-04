@@ -51,4 +51,9 @@ class SharedUtil {
         StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
     await StorageManager.sharedPreferences.setBool(key + account, value);
   }
+
+  Future<bool> getBoolean(String key) async {
+    String account = StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
+    return StorageManager.sharedPreferences.getBool(key + account) ?? false;
+  }
 }

@@ -195,7 +195,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
         PersonInfoEntity model = PersonInfoEntity.fromJson(dataMap[0]);
         if (strNoEmpty(model.allowType)) {
           routePush(new AddFriendsDetails('search', model.identifier,
-              model.faceUrl, model.nickName, model.gender));
+              model.avatar, model.nickName, model.gender));
         } else {
           isResult = true;
         }

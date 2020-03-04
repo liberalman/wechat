@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../tools/wechat_flutter.dart';
 
+// 底部那个输入框栏
 class ChatMoreIcon extends StatelessWidget {
   final bool isMore;
   final String value;
@@ -18,7 +19,7 @@ class ChatMoreIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return strNoEmpty(value)
-        ? new ComMomButton(
+        ? new ComMomButton( // 发送按钮
             text: '发送',
             style: TextStyle(color: Colors.white),
             width: 45.0,
@@ -26,7 +27,7 @@ class ChatMoreIcon extends StatelessWidget {
             radius: 4.0,
             onTap: onTap ?? () {},
           )
-        : new InkWell(
+        : new InkWell( // more按钮
             child: new Container(
               width: 23,
               margin: EdgeInsets.symmetric(horizontal: 5.0),

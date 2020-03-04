@@ -17,7 +17,7 @@ class _ChatMamBerState extends State<ChatMamBer> {
   @override
   Widget build(BuildContext context) {
     String face =
-        Platform.isIOS ? widget.model?.faceURL : widget.model?.faceUrl;
+        Platform.isIOS ? widget.model?.avatar : widget.model?.avatar;
     String name =
         Platform.isIOS ? widget.model?.nickname : widget.model?.nickName;
 

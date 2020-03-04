@@ -13,9 +13,9 @@ class GlobalModel extends ChangeNotifier {
   String appName = "wechat";
 
   // user infomation
-  String account = '';
-  String nickName = 'Jacky';
-  String avatar = '';
+  String account = '1';
+  String nickName = 'Tom';
+  String avatar = 'http://cdn.duitang.com/uploads/item/201409/18/20140918141220_N4Tic.thumb.700_0.jpeg';
   int gender = 0; // 0 male, 1 female
 
   // Language setting
@@ -24,7 +24,7 @@ class GlobalModel extends ChangeNotifier {
   Locale currentLocale;
 
   // has gone to login page?
-  bool goToLogin = true;
+  bool goToLogin = false;
 
   GlobalLogic logic;
 
@@ -46,23 +46,23 @@ class GlobalModel extends ChangeNotifier {
   }
 
   void refresh() {
-    if (!goToLogin)
-      initInfo(); // 已登录，载入个人信息
+    if (!goToLogin) initInfo(); // 已登录，载入个人信息
     notifyListeners(); // 这个方法是通知那些用到GlobalModel对象的widget刷新用的。
   }
 
   void initInfo() async {
-    // 获取用户信息
-    /*final data = await getUsersProfile([account]);
+    // 获取自己的用户信息
+    final data = await getUsersProfile([account]);
     if (null == data)
-      return;*/
-    String data = '[{"nickname":"Jacky","avatar":"","gender":0}]';
+      return;
     List<dynamic> result = json.decode(data);
     if (Platform.isAndroid) {
       nickName = result[0]['nickname'];
-      await SharedUtil.getInstance().saveString(Keys.nickName, result[0]['nickname']);
+      await SharedUtil.getInstance()
+          .saveString(Keys.nickName, result[0]['nickname']);
       avatar = result[0]['avatar'];
-      await SharedUtil.getInstance().saveString(Keys.avatar, result[0]['avatar']);
+      await SharedUtil.getInstance()
+          .saveString(Keys.avatar, result[0]['avatar']);
       gender = result[0]['gender'];
       await SharedUtil.getInstance().saveInt(Keys.gender, result[0]['gender']);
     } else {

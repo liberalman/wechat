@@ -57,7 +57,7 @@ class IContactInfoEntity {
 
 class IContactInfoProfile {
   int birthday;
-  String faceURL;
+  String avatar;
   String identifier;
   int role;
   int gender;
@@ -69,7 +69,7 @@ class IContactInfoProfile {
 
   IContactInfoProfile(
       {this.birthday,
-        this.faceURL,
+        this.avatar,
         this.identifier,
         this.role,
         this.gender,
@@ -81,7 +81,7 @@ class IContactInfoProfile {
 
   IContactInfoProfile.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
-    faceURL = json['faceURL'];
+    avatar = json['avatar'];
     identifier = json['identifier'];
     role = json['role'];
     gender = json['gender'];
@@ -97,7 +97,7 @@ class IContactInfoProfile {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['birthday'] = this.birthday;
-    data['faceURL'] = this.faceURL;
+    data['avatar'] = this.avatar;
     data['identifier'] = this.identifier;
     data['role'] = this.role;
     data['gender'] = this.gender;

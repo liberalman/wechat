@@ -27,6 +27,10 @@ class UserData {
 
 class UserDataPageGet {
   List ids = [
+    '0',
+    '1',
+    '2',
+    '3',
     '1235888',
     '11222',
     '1352',
@@ -89,8 +93,8 @@ class UserDataPageGet {
         } else {
           PersonInfoEntity info = PersonInfoEntity.fromJson(profileData[i]);
           identifier = info.identifier;
-          if (strNoEmpty(info?.faceUrl) && info?.faceUrl != '[]') {
-            avatar = info?.faceUrl ?? defIcon;
+          if (strNoEmpty(info?.avatar) && info?.avatar != '[]') {
+            avatar = info?.avatar ?? defIcon;
           } else {
             avatar = defIcon;
           }

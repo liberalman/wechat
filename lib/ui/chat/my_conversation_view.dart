@@ -4,6 +4,7 @@ import '../../tools/wechat_flutter.dart';
 import '../../ui/ui.dart';
 import '../../config/const.dart';
 
+// 首页聊天列表
 class MyConversationView extends StatefulWidget {
   final String imageUrl;
   final String title;

@@ -25,7 +25,7 @@ class TextMsg extends StatelessWidget {
       ),
       new Spacer(),
     ];
-    if (model.id == globalModel.account) {
+    if (model.id == globalModel.account) { //检查消息是不是自己发的
       body = body.reversed.toList();
     } else {
       body = body;

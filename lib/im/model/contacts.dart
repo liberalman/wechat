@@ -45,13 +45,14 @@ class ContactsPageData {
     final result = await getContactsFriends(user);
 
     getMethod(result) async {
-      if (!listNoEmpty(result)) return contacts;
+      //if (!listNoEmpty(result))
+      //  return contacts;
       List<dynamic> dataMap = json.decode(result);
       int dLength = dataMap.length;
       for (int i = 0; i < dLength; i++) {
         if (Platform.isIOS) {
           IContactInfoEntity model = IContactInfoEntity.fromJson(dataMap[i]);
-          avatar = model.profile.faceURL;
+          avatar = model.profile.avatar;
           identifier = model.identifier;
           remark = await getRemarkMethod(model.identifier, callback: (_) {});
           nickName = model.profile.nickname;
@@ -68,7 +69,7 @@ class ContactsPageData {
           );
         } else {
           PersonInfoEntity model = PersonInfoEntity.fromJson(dataMap[i]);
-          avatar = model.faceUrl;
+          avatar = model.avatar;
           identifier = model.identifier;
           remark = await getRemarkMethod(model.identifier, callback: (_) {});
           nickName = model.nickName;

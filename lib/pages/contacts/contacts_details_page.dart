@@ -59,7 +59,7 @@ class _ContactsDetailsPageState extends State<ContactsDetailsPage> {
         text: '发消息',
         isBorder: true,
         onPressed: () => routePushReplace(
-            new ChatPage(id: widget.id, title: widget.title, type: 1)),
+            new ChatPage(id: widget.id, title: widget.title, type: 1)), // 跳转到聊天页面
       ),
       new Visibility(
         visible: !isSelf,

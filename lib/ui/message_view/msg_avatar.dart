@@ -20,9 +20,10 @@ class MsgAvatar extends StatelessWidget {
         ),
         margin: EdgeInsets.only(right: 10.0),
         child: new ImageView(
-          img: model.id == globalModel.account
+          /*img: model.id == globalModel.account // 如果是自己，就把自己的头像显示上去；否则显示别人的头像
               ? globalModel.avatar??defIcon
-              : model.avatar,
+              : model.avatar,*/
+          img: defIcon,
           height: 50,
           width: 50,
           fit: BoxFit.cover,

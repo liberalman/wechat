@@ -32,22 +32,21 @@ class ChatDataRep {
       for (int i = 0; i < chatMsgDataList.length; i++) {
         PersonInfoEntity model =
             PersonInfoEntity.fromJson(chatMsgDataList[i]['senderProfile']);
-
         chatData.insert(
           0,
           new ChatData(
             msg: chatMsgDataList[i]['message'],
-            avatar: model.faceUrl,
+            avatar: model.avatar,
             time: chatMsgDataList[i]['timeStamp'],
             nickName: model.nickName,
             id: model.identifier,
           ),
         );
       }
-    } else {
+    } else { // 如果是IOS，则如此处理
       List chatMsgDataList = json.decode(chatMsgData);
       for (int i = 0; i < chatMsgDataList.length; i++) {
-        final info = await getUsersProfile([chatMsgDataList[i]['sender']]);
+        final info = await getUsersProfile([chatMsgDataList[i]['sender']]); // 根据发送者id查询他的详情
         List infoList = json.decode(info);
         IPersonInfoEntity model = IPersonInfoEntity.fromJson(infoList[0]);
         chatData.insert(

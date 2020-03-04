@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../im/model/chat_data.dart';
 import '../../tools/wechat_flutter.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import '../../provider/global_model.dart';
-
 import '../message_view/Img_msg.dart';
 import '../message_view/join_message.dart';
 import '../message_view/quit_message.dart';
@@ -14,6 +13,7 @@ import '../message_view/tem_message.dart';
 import '../message_view/text_msg.dart';
 import '../message_view/video_message.dart';
 
+// 消息输入框
 class SendMessageView extends StatefulWidget {
   final ChatData model;
 

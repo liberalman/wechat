@@ -11,7 +11,9 @@ import '../info_handle.dart';
 import '../message_handle.dart';
 import '../../common/check.dart';
 import '../../config/const.dart';
+import '../../mqtt/mqtt_server_client.dart';
 
+// 首页聊天列表
 class ChatList {
   ChatList({
     @required this.avatar,
@@ -74,8 +76,8 @@ class ChatListData {
                 : identifier ?? '未知';
           } else {
             PersonInfoEntity info = PersonInfoEntity.fromJson(profileData[i]);
-            if (strNoEmpty(info?.faceUrl) && info?.faceUrl != '[]') {
-              avatar = info?.faceUrl ?? defIcon;
+            if (strNoEmpty(info?.avatar) && info?.avatar != '[]') {
+              avatar = info?.avatar ?? defIcon;
             } else {
               avatar = defIcon;
             }
@@ -104,6 +106,8 @@ class ChatListData {
             msgType: msgType,
           ),
         );
+
+        //Mqtt.getInstance().subscribe("testtopic/" + identifier);
       }
     }
     return chatList;

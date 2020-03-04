@@ -104,6 +104,9 @@ class Mqtt {
     /// Check we are connected
     if (client.connectionStatus.state == MqttConnectionState.connected) {
       print('EXAMPLE::Mosquitto client connected');
+      subscribe("C2C/1");
+      subscribe("C2C/2");
+      subscribe("C2C/3");
     } else {
       /// Use status here rather than state if you also want the broker return code.
       print(
@@ -113,10 +116,7 @@ class Mqtt {
       exit(-1);
     }
 
-    /// Ok, lets try a subscription
-    const topic = 'testtopic/1'; // Not a wildcard topic
-    print('EXAMPLE::Subscribing to the ' + topic + ' topic');
-    client.subscribe(topic, MqttQos.atMostOnce);
+
 
     /// The client has a change notifier object(see the Observable class) which we then listen to to get
     /// notifications of published updates to each subscribed topic.
@@ -131,9 +131,8 @@ class Mqtt {
       /// for a while.
       /// The payload is a byte buffer, this will be specific to the topic
       print(
-          'EXAMPLE::Change notification:: topic is <${c[0]
+          'recieve:: topic is <${c[0]
               .topic}>, payload is <-- $pt -->');
-      print('');
     });
 
     /// If needed you can listen for published messages that have completed the publishing
@@ -145,35 +144,44 @@ class Mqtt {
               .topicName}, with Qos ${message.header.qos}');
     });
 
-    /// Lets publish to our topic
-    /// Use the payload builder rather than a raw buffer
-    /// Our known topic to publish to
-    const pubTopic = 'testtopic/1';
-    final builder = MqttClientPayloadBuilder();
-    builder.addString('Hello from mqtt_client');
+    /*/// Ok, we will now sleep a while, in this gap you will see ping request/response
+    /// messages being exchanged by the keep alive mechanism.
+    print('EXAMPLE::Sleeping....');
+    await MqttUtilities.asyncSleep(120);
 
     /// Subscribe to it
     print('EXAMPLE::Subscribing to the ' + pubTopic + ' topic');
     client.subscribe(pubTopic, MqttQos.exactlyOnce);
 
-    /// Publish it
-    print('EXAMPLE::Publishing our topic');
-    client.publishMessage(pubTopic, MqttQos.exactlyOnce, builder.payload);
-
-    /// Ok, we will now sleep a while, in this gap you will see ping request/response
-    /// messages being exchanged by the keep alive mechanism.
-    print('EXAMPLE::Sleeping....');
-    await MqttUtilities.asyncSleep(120);
-
-    /// Finally, unsubscribe and exit gracefully
-    print('EXAMPLE::Unsubscribing');
-    client.unsubscribe(topic);
-
     /// Wait for the unsubscribe message from the broker if you wish.
     await MqttUtilities.asyncSleep(2);
     print('EXAMPLE::Disconnecting');
-    client.disconnect();
+    client.disconnect();*/
     return 0;
+  }
+
+  subscribe(String topic) {
+    /// Ok, lets try a subscription
+    //const topic = 'testtopic/1'; // Not a wildcard topic
+    print('EXAMPLE::Subscribing to the ' + topic + ' topic');
+    client.subscribe(topic, MqttQos.atMostOnce);
+  }
+
+  unsubscribe(String topic) {
+    /// Finally, unsubscribe and exit gracefully
+    print('EXAMPLE::Unsubscribing');
+    client.unsubscribe(topic);
+  }
+
+  publish(String topic, String text) {
+    /// Lets publish to our topic
+    /// Use the payload builder rather than a raw buffer
+    /// Our known topic to publish to
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(text);
+    /// Publish it
+    print('EXAMPLE::Publishing our topic');
+    client.publishMessage(topic, MqttQos.exactlyOnce, builder.payload);
   }
 
   /// The subscribed callback
