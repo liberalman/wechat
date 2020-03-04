@@ -133,6 +133,7 @@ class Mqtt {
       print(
           'recieve:: topic is <${c[0]
               .topic}>, payload is <-- $pt -->');
+      // chatData.insert(0, new ChatData(msg: {"text": text}));
     });
 
     /// If needed you can listen for published messages that have completed the publishing

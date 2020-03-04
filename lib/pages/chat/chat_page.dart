@@ -59,7 +59,8 @@ class _ChatPageState extends State<ChatPage> {
     List<ChatData> listChat = str;
     chatData.clear();
     chatData..addAll(listChat.reversed);
-    if (mounted) setState(() {});
+    if (mounted)
+      setState(() {});
   }
 
   void insertText(String text) {
@@ -98,7 +99,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> initPlatformState() async {
-    if (!mounted) return;
+    if (!mounted)
+      return;
 
     if (_msgStreamSubs == null) {
       //_msgStreamSubs =
@@ -176,7 +178,7 @@ class _ChatPageState extends State<ChatPage> {
       chatData != null
           ? new ChatDetailsBody(scrollController: scrollController, chatData: chatData) // 创建聊天框界面
           : new Spacer(),
-      new ChatDetailsRow(
+      new ChatDetailsRow( // 底部banner栏
         voiceOnTap: () => onTapHandle(ButtonType.voice),
         isVoice: _isVoice,
         edit: edit,
@@ -188,7 +190,7 @@ class _ChatPageState extends State<ChatPage> {
         id: widget.id,
         type: widget.type,
       ),
-      new Container(
+      new Container( // more弹出栏
         height: _isMore && !_focusNode.hasFocus ? keyboardHeight : 0.0,
         width: MediaQuery.of(context).size.width,
         color: Color(AppColors.ChatBoxBg),

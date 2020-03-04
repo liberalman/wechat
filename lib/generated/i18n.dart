@@ -28,24 +28,25 @@ class S implements WidgetsLocalizations {
   String get phoneNumber => "Phone";
   String get phoneNumberHint => "Please fill in your phone number";
   String get me => "Me";
-
-  // country
-  String get australia => "Australia";
-  String get canada => "Canada";
-  String get chinaMainland => "China Mainland";
+  String get weChat => "WeChat";
+  String get languageTitle => "Change Language";
   String get contacts => "Contacts";
   String get discover => "Discover";
   String get emergencyFreeze => "freeze";
   String get retrievePW => "Retrieve";
   String get weChatSecurityCenter => "Security";
   String get exampleName => "For example: Chen Chen";
+
+  // country
+  String get australia => "Australia";
+  String get canada => "Canada";
+  String get chinaMainland => "China Mainland";
   String get hongKong => "Hong Kong";
-  String get languageTitle => "Change Language";
   String get macao => "Macao";
   String get singapore => "Singapore";
   String get taiwan => "Taiwan";
   String get uS => "United States";
-  String get weChat => "WeChat";
+
 }
 
 class en extends S {
