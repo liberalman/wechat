@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:wechat/im/model/conversation_data.dart';
-import '../config/storage_manager.dart';
+import '../im/model/conversation_data.dart';
 
 class SqliteHelper {
   static final SqliteHelper _instance = new SqliteHelper.internal();
@@ -11,9 +10,9 @@ class SqliteHelper {
 
   final String tableName = 'conversation_data';
   final String columnId = 'id';
-  final String peerId = "peer_id";
+  final String peer = "peer";
   final String content = 'content';
-  final String userId = 'user_id';
+  final String sender = 'sender';
   final String createTime = 'create_time';
 
   SqliteHelper.internal();
@@ -41,9 +40,9 @@ class SqliteHelper {
   void _onCreate(Database db, int newVersion) async {
     await db.execute('''
         CREATE TABLE $tableName (
-        $columnId INTEGER,
-        $userId TEXT,
-        $peerId TEXT,
+        $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $sender TEXT,
+        $peer TEXT,
         $content TEXT,
         $createTime INTEGER)
     ''');
@@ -60,7 +59,7 @@ class SqliteHelper {
     var dbClient = await db;
     var result = await dbClient.query(
       tableName,
-      columns: [columnId, userId, content, createTime],
+      columns: [columnId, sender, peer, content, createTime],
       limit: limit,
       offset: offset,
     );
@@ -78,7 +77,7 @@ class SqliteHelper {
   Future<ConversationData> getOne(int id) async {
     var dbClient = await db;
     List<Map> result = await dbClient.query(tableName,
-        columns: [columnId, userId, peerId, content, createTime],
+        columns: [columnId, sender, peer, content, createTime],
         where: '$id = ?',
         whereArgs: [id]);
 

@@ -4,17 +4,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:wechat/config/const.dart';
+import 'package:wechat/im/model/chat_data.dart';
 import './config/storage_manager.dart';
 import './chat/message_page.dart';
 import './contacts/contacts.dart';
 import './found/found.dart';
 import './person/personal.dart';
 import './provider/global_model.dart';
+import './provider/conversation_model.dart';
 import './generated/i18n.dart';
 import './pages/login/login_begin_page.dart';
 import './pages/root/root_page.dart';
 import './common/route.dart';
 import './mqtt/mqtt_server_client.dart';
+import './mqtt/event_bus.dart';
 
 // 右上角点击➕号后弹出的菜单项
 enum ItemType { GroupChat, AddFrinds, QrCode, Payments, Help }
@@ -25,7 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();

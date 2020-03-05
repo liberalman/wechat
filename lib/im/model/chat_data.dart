@@ -24,6 +24,10 @@ class ChatData {
 }
 
 class ChatDataRep {
+  addData(String sender, String peer, String content) async {
+    await addMessage(sender, peer, content);
+  }
+
   repData(String id, int type) async {
     List<ChatData> chatData = new List<ChatData>();
     final chatMsgData = await getDimMessages(id, type: type);

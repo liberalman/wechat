@@ -7,8 +7,11 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:wechat/im/model/conversation_data.dart';
+import './event_bus.dart';
 
 /// An annotated simple subscribe/publish usage example for mqtt_server_client. Please read in with reference
 /// to the MQTT specification. The example is runnable, also refer to test/mqtt_client_broker_test...dart
@@ -104,9 +107,7 @@ class Mqtt {
     /// Check we are connected
     if (client.connectionStatus.state == MqttConnectionState.connected) {
       print('EXAMPLE::Mosquitto client connected');
-      subscribe("C2C/1");
-      subscribe("C2C/2");
-      subscribe("C2C/3");
+      subscribe("C2C/1"); // 监听自己
     } else {
       /// Use status here rather than state if you also want the broker return code.
       print(
@@ -115,8 +116,6 @@ class Mqtt {
       client.disconnect();
       exit(-1);
     }
-
-
 
     /// The client has a change notifier object(see the Observable class) which we then listen to to get
     /// notifications of published updates to each subscribed topic.
@@ -133,7 +132,8 @@ class Mqtt {
       print(
           'recieve:: topic is <${c[0]
               .topic}>, payload is <-- $pt -->');
-      // chatData.insert(0, new ChatData(msg: {"text": text}));
+      ConversationData data = new ConversationData.fromJson(json.decode(pt));
+      eventBus.fire(new ChatEvent(sender: data.sender, peer: data.peer, content: data.content));
     });
 
     /// If needed you can listen for published messages that have completed the publishing

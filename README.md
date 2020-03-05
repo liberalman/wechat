@@ -1,6 +1,8 @@
 # wechat
 使用 Flutter 框架开发的高仿微信项目
 
+flutter学习网站 https://book.flutterchina.club/chapter7/provider.html
+
 im/info_handle.dart 获取某个用户的信息，数据初始化。
 im/conversation_handle.dart 消息列表数据初始化在这里赋值。
 im/friends_handle.dart 好友列表，数据初始化。

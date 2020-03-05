@@ -89,11 +89,12 @@ class ChatListData {
 
         final message = await getDimMessages(model.peer, num: 1);
         List<dynamic> messageData = json.decode(message);
-        MessageEntity messageModel = MessageEntity.fromJson(messageData[0]);
+        if (messageData.length > 0) {
+          MessageEntity messageModel = MessageEntity.fromJson(messageData[0]);
 
-        time = messageModel.time;
-        msgType = messageModel.message.type;
-
+          time = messageModel.time;
+          msgType = messageModel.message.type;
+        }
         chatList.insert(
           0,
           new ChatList(
@@ -102,12 +103,10 @@ class ChatListData {
             avatar: avatar,
             name: name,
             time: time,
-            content: messageData[0],
+            content: messageData.length > 0 ? messageData[0] : null,
             msgType: msgType,
           ),
         );
-
-        //Mqtt.getInstance().subscribe("testtopic/" + identifier);
       }
     }
     return chatList;

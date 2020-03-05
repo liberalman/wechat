@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/global_model.dart';
 import '../provider/login_model.dart';
+import '../provider/conversation_model.dart';
 
 /*
 * Flutter状态管理Provider
@@ -37,6 +38,13 @@ class ProviderConfig {
   ChangeNotifierProvider<LoginModel> getLoginPage(Widget child) {
     return ChangeNotifierProvider<LoginModel>(
       builder: (context) => LoginModel(),
+      child: child,
+    );
+  }
+
+  ChangeNotifierProvider<ConversationModel> getConversations(Widget child) {
+    return ChangeNotifierProvider<ConversationModel>(
+      builder: (context) => ConversationModel(),
       child: child,
     );
   }

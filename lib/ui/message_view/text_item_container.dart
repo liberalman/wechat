@@ -41,13 +41,14 @@ class _TextItemContainerState extends State<TextItemContainer> {
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
         ),
         margin: EdgeInsets.only(right: 7.0),
-        /*child: ExtendedText(
+        // 显示文字的地方
+        child: ExtendedText(
           widget.text ?? '文字为空',
           maxLines: 99,
           overflow: TextOverflow.ellipsis, // 来自于 extended_text
           specialTextSpanBuilder: _spanBuilder,
           style: TextStyle(fontSize: 15),
-        ),*/
+        ),
       ),
     );
   }

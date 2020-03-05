@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:sprintf/sprintf.dart';
+import 'package:flutter/material.dart';
 import '../../im/model/chat_data.dart';
 import './chat_more_page.dart';
 import '../../ui/chat/chat_details_body.dart';
@@ -7,8 +9,8 @@ import '../../ui/item/chat_more_icon.dart';
 import '../../ui/view/indicator_page_view.dart';
 import '../../ui/view/main_input.dart';
 import '../../ui/bar/common_bar.dart';
+
 //import 'package:extended_text_field/extended_text_field.dart';
-import 'package:flutter/material.dart';
 import '../../im/send_handle.dart';
 import '../../tools/wechat_flutter.dart';
 import '../../ui/edit/text_span_builder.dart';
@@ -18,6 +20,8 @@ import '../../common/route.dart';
 import '../../tools/data/notice.dart';
 import '../../tools/data/data.dart';
 import '../../config/const.dart';
+import '../../mqtt/event_bus.dart';
+import '../../mqtt/mqtt_server_client.dart';
 
 enum ButtonType { voice, more }
 
@@ -25,8 +29,9 @@ class ChatPage extends StatefulWidget {
   final String title;
   final int type;
   final String id;
+  final String peer;
 
-  ChatPage({this.id, this.title, this.type = 1});
+  ChatPage({this.id, this.peer, this.title, this.type = 1});
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -49,21 +54,13 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     getChatMsgData();
 
-    scrollController.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
+    scrollController.addListener(
+        () => FocusScope.of(context).requestFocus(new FocusNode()));
     initPlatformState();
     Notice.addListener(WeChatActions.msg(), (v) => getChatMsgData());
   }
 
-  Future getChatMsgData() async {
-    final str = await ChatDataRep().repData(widget.id, widget.type);
-    List<ChatData> listChat = str;
-    chatData.clear();
-    chatData..addAll(listChat.reversed);
-    if (mounted)
-      setState(() {});
-  }
-
-  void insertText(String text) {
+  /*void insertText(String text) {
     var value = _textController.value;
     var start = value.selection.baseOffset;
     var end = value.selection.extentOffset;
@@ -92,26 +89,45 @@ class _ChatPageState extends State<ChatPage> {
           selection:
           TextSelection.fromPosition(TextPosition(offset: text.length)));
     }
-  }
-
-  void canCelListener() {
-    if (_msgStreamSubs != null) _msgStreamSubs.cancel();
-  }
+  }*/
 
   Future<void> initPlatformState() async {
-    if (!mounted)
-      return;
+    if (!mounted) return;
 
+    //订阅eventbus
     if (_msgStreamSubs == null) {
-      //_msgStreamSubs =
-      //    im.onMessage.listen((dynamic onData) => getChatMsgData());
+      //_msgStreamSubs = im.onMessage.listen((dynamic onData) => getChatMsgData());
+      _msgStreamSubs = eventBus.on<ChatEvent>().listen((event) {
+        _textController.clear();
+        ChatDataRep().addData(event.sender, event.peer, event.content);
+        chatData.insert(0, new ChatData(msg: {"text": event.content}));
+        if (mounted)
+          setState(() {});
+        sendTextMsg('${widget.id}', widget.type, event.content); // 这个是显示在屏幕上
+      });
     }
   }
 
+  Future getChatMsgData() async {
+    final str = await ChatDataRep().repData(widget.id, widget.type);
+    List<ChatData> listChat = str;
+    chatData.clear();
+    chatData..addAll(listChat.reversed);
+    if (mounted) setState(() {});
+  }
+
+  void canCelListener() {
+    // 由于EventBus其核心是基于Dart Streams（流）,因此退出页面时要取消订阅，防止内存泄漏
+    if (_msgStreamSubs != null) _msgStreamSubs.cancel();
+  }
+
   _handleSubmittedData(String text) async {
+    await ChatDataRep().addData("1", widget.id, text);
     _textController.clear();
     chatData.insert(0, new ChatData(msg: {"text": text}));
-    await sendTextMsg('${widget.id}', widget.type, text);
+    if (mounted)
+      setState(() {});
+    await sendTextMsg('${widget.id}', widget.type, text); // 这个是显示在屏幕上
   }
 
   onTapHandle(ButtonType type) {
@@ -135,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget edit(context, size) {
     // 计算当前的文本需要占用的行数
     TextSpan _text =
-    TextSpan(text: _textController.text, style: AppStyles.ChatBoxTextStyle);
+        TextSpan(text: _textController.text, style: AppStyles.ChatBoxTextStyle);
 
     TextPainter _tp = TextPainter(
         text: _text,
@@ -176,13 +192,16 @@ class _ChatPageState extends State<ChatPage> {
     }
     var body = [
       chatData != null
-          ? new ChatDetailsBody(scrollController: scrollController, chatData: chatData) // 创建聊天框界面
+          ? new ChatDetailsBody(
+              scrollController: scrollController, chatData: chatData) // 创建聊天框界面
           : new Spacer(),
-      new ChatDetailsRow( // 底部banner栏
+      new ChatDetailsRow(
+        // 底部banner栏
         voiceOnTap: () => onTapHandle(ButtonType.voice),
         isVoice: _isVoice,
         edit: edit,
-        more: new ChatMoreIcon( // 底部那个输入框栏
+        more: new ChatMoreIcon(
+          // 底部那个输入框栏
           value: _textController.text,
           onTap: () => _handleSubmittedData(_textController.text), // 发送消息
           moreTap: () => onTapHandle(ButtonType.more),
@@ -190,7 +209,8 @@ class _ChatPageState extends State<ChatPage> {
         id: widget.id,
         type: widget.type,
       ),
-      new Container( // more弹出栏
+      new Container(
+        // more弹出栏
         height: _isMore && !_focusNode.hasFocus ? keyboardHeight : 0.0,
         width: MediaQuery.of(context).size.width,
         color: Color(AppColors.ChatBoxBg),
