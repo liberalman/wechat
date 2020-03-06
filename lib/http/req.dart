@@ -57,12 +57,12 @@ class Req {
 
   //post请求
   void post(
-    String url,
-    OnData callBack, {
-    Map<String, String> params,
-    OnError errorCallBack,
-    CancelToken token,
-  }) async {
+      String url,
+      OnData callBack, {
+        Map<String, String> params,
+        OnError errorCallBack,
+        CancelToken token,
+      }) async {
     this._request(
       url,
       callBack,

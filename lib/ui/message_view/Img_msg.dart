@@ -53,7 +53,7 @@ class ImgMsg extends StatelessWidget {
       ),
       new Spacer(),
     ];
-    if (model.id == globalModel.account) {
+    if (model.userId == globalModel.userId) {
       body = body.reversed.toList();
     } else {
       body = body;

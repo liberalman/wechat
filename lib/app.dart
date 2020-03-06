@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       debugPrint('IOS自动登陆开发中');
     }
-    Mqtt mqtt = Mqtt.getInstance();
+    Mqtt.getInstance(); // 初始化mqtt。连接远程服务器
   }
 
   @override

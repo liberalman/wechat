@@ -1,5 +1,5 @@
 class IContactInfoEntity {
-  String identifier;
+  String userId;
   int addTime;
   String addSource;
   String addWording;
@@ -9,7 +9,7 @@ class IContactInfoEntity {
   IContactInfoCustominfo customInfo;
 
   IContactInfoEntity(
-      {this.identifier,
+      {this.userId,
         this.addTime,
         this.addSource,
         this.addWording,
@@ -19,7 +19,7 @@ class IContactInfoEntity {
         this.customInfo});
 
   IContactInfoEntity.fromJson(Map<String, dynamic> json) {
-    identifier = json['identifier'];
+    userId = json['userId'];
     addTime = json['addTime'];
     addSource = json['addSource'];
     addWording = json['addWording'];
@@ -37,7 +37,7 @@ class IContactInfoEntity {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['identifier'] = this.identifier;
+    data['userId'] = this.userId;
     data['addTime'] = this.addTime;
     data['addSource'] = this.addSource;
     data['addWording'] = this.addWording;
@@ -58,7 +58,7 @@ class IContactInfoEntity {
 class IContactInfoProfile {
   int birthday;
   String avatar;
-  String identifier;
+  String userId;
   int role;
   int gender;
   int level;
@@ -70,7 +70,7 @@ class IContactInfoProfile {
   IContactInfoProfile(
       {this.birthday,
         this.avatar,
-        this.identifier,
+        this.userId,
         this.role,
         this.gender,
         this.level,
@@ -82,7 +82,7 @@ class IContactInfoProfile {
   IContactInfoProfile.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
     avatar = json['avatar'];
-    identifier = json['identifier'];
+    userId = json['userId'];
     role = json['role'];
     gender = json['gender'];
     level = json['level'];
@@ -98,7 +98,7 @@ class IContactInfoProfile {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['birthday'] = this.birthday;
     data['avatar'] = this.avatar;
-    data['identifier'] = this.identifier;
+    data['userId'] = this.userId;
     data['role'] = this.role;
     data['gender'] = this.gender;
     data['level'] = this.level;

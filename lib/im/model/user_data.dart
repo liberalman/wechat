@@ -14,14 +14,14 @@ import 'dart:convert';
 class UserData {
   UserData({
     @required this.avatar,
-    @required this.name,
-    @required this.identifier,
+    @required this.nickName,
+    @required this.userId,
     @required this.isAdd,
   });
 
   final String avatar;
-  final String name;
-  final String identifier;
+  final String nickName;
+  final String userId;
   final bool isAdd;
 }
 
@@ -39,39 +39,38 @@ class UserDataPageGet {
       List<dynamic> profileData = json.decode(profile);
       for (int i = 0; i < profileData.length; i++) {
         String avatar;
-        String name;
-        String identifier;
+        String nickName;
+        String userId;
         if (Platform.isIOS) {
           IPersonInfoEntity info = IPersonInfoEntity.fromJson(profileData[i]);
-          identifier = info.identifier;
+          userId = info.userId;
           if (strNoEmpty(info?.avatar) && info?.avatar != '[]') {
             avatar = info?.avatar ?? defIcon;
           } else {
             avatar = defIcon;
           }
-          name =
-              strNoEmpty(info?.nickname) ? info?.nickname : identifier ?? '未知';
+          nickName =
+              strNoEmpty(info?.nickname) ? info?.nickname : userId ?? '未知';
         } else {
           PersonInfoEntity info = PersonInfoEntity.fromJson(profileData[i]);
-          identifier = info.identifier;
+          userId = info.userId;
           if (strNoEmpty(info?.avatar) && info?.avatar != '[]') {
             avatar = info?.avatar ?? defIcon;
           } else {
             avatar = defIcon;
           }
-          name =
-              strNoEmpty(info?.nickName) ? info?.nickName : identifier ?? '未知';
+          nickName =
+              strNoEmpty(info?.nickName) ? info?.nickName : userId ?? '未知';
         }
 
-        final user = await SharedUtil.getInstance().getString(Keys.account);
-        final result = await getContactsFriends(user);
+        final result = await getContactsFriends(userId);
         userData.insert(
           0,
           new UserData(
             avatar: avatar,
-            name: name,
-            identifier: identifier,
-            isAdd: result.toString().contains(identifier),
+            nickName: nickName,
+            userId: userId,
+            isAdd: result.toString().contains(userId),
           ),
         );
       }

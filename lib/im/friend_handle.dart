@@ -54,15 +54,16 @@ Future<dynamic> delFriend(String userName, BuildContext context,
   }
 }
 
-Future<dynamic> getContactsFriends(String userName) async {
+Future<dynamic> getContactsFriends(String userId) async {
   try {
-    //var result = await im.listFriends(userName);
-    var result = '[{"identifier":"1","addTime":1583292499,"addWording":"1","remark":"",'
-        '"profile":{"nickname":"Jacky","avatar":"","gender":0,'
-        '"birthday":1583292499,"avatar":"http://cdn.duitang.com/uploads/item/201409/18/20140918141220_N4Tic.thumb.700_0.jpeg",'
-        '"identifier":"","role":0,"gender":1,"level":1,"language":1,'
-        '"allowType":1,'
-        '"customInfo":{}},"groups":[],"customInfo":{} }]'; // identifier
+    var result = '[{"userId":"5a5624e4ba18d80e4dd3162b","addTime":1583292499,"addWording":"1","remark":"x","addSource":"",'
+        '"profile":{"nickname":"Liberalman","avatar":"https://image.hicool.top/libertyblog/img/avatarher.jpg","gender":0,'
+        '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
+        '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} },'
+        '{"userId":"5c566802128c810b3772f9e5","addTime":1583292499,"addWording":"1","remark":"y","addSource":"",'
+        '"profile":{"nickname":"Andy","avatar":"https://1.gravatar.com/avatar/a3e54af3cb6e157e496ae430aed4f4a3?s=96&d=mm","gender":0,'
+        '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
+        '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} }]'; // identifier
     return result;
   } on PlatformException {
     debugPrint('获取好友列表  失败');

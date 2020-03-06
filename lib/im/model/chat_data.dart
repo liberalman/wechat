@@ -9,7 +9,7 @@ import '../all_im.dart';
 
 class ChatData {
   final Map msg;
-  final String id;
+  final String userId;
   final int time;
   final String nickName;
   final String avatar;
@@ -19,18 +19,18 @@ class ChatData {
     this.avatar,
     this.time,
     this.nickName,
-    this.id,
+    this.userId,
   });
 }
 
 class ChatDataRep {
-  addData(String sender, String peer, String content) async {
-    await addMessage(sender, peer, content);
+  addData(String sender, String roomId, String content) async {
+    await addMessage(sender, roomId, content);
   }
 
-  repData(String id, int type) async {
+  repData(String roomeId, int type) async {
     List<ChatData> chatData = new List<ChatData>();
-    final chatMsgData = await getDimMessages(id, type: type);
+    final chatMsgData = await getDimMessages(roomeId, type: type);
     if (Platform.isAndroid) {
       List chatMsgDataList = json.decode(chatMsgData);
       for (int i = 0; i < chatMsgDataList.length; i++) {
@@ -43,7 +43,7 @@ class ChatDataRep {
             avatar: model.avatar,
             time: chatMsgDataList[i]['timeStamp'],
             nickName: model.nickName,
-            id: model.identifier,
+            userId: model.userId,
           ),
         );
       }
@@ -60,7 +60,7 @@ class ChatDataRep {
             avatar: model.avatar,
             time: chatMsgDataList[i]['timeStamp'],
             nickName: model.nickname,
-            id: chatMsgDataList[i]['sender'],
+            userId: chatMsgDataList[i]['sender'],
           ),
         );
       }

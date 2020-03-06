@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wechat/im/model/conversation_data.dart';
 import 'package:wechat/tools/shared_util.dart';
-import 'package:wechat/tools/sqlite_helper.dart';
 import './keys.dart';
 
 class StorageManager {

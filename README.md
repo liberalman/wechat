@@ -3,6 +3,11 @@
 
 flutter学习网站 https://book.flutterchina.club/chapter7/provider.html
 
+# 登录
+pages/login/login_begin_page.dart 这个页面显示微信小人背景图片，放入 登录、注册、语言选择 按钮
+    |_ pages/login/login_page.dart 登录页面。填写手机号，点击登录。
+      |_ im/login_handle.dart 和远程服务器交互以验证登录。
+
 im/info_handle.dart 获取某个用户的信息，数据初始化。
 im/conversation_handle.dart 消息列表数据初始化在这里赋值。
 im/friends_handle.dart 好友列表，数据初始化。

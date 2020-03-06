@@ -10,7 +10,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:wechat/im/model/conversation_data.dart';
+import 'package:wechat/im/model/chat.dart';
 import './event_bus.dart';
 
 /// An annotated simple subscribe/publish usage example for mqtt_server_client. Please read in with reference
@@ -107,7 +107,6 @@ class Mqtt {
     /// Check we are connected
     if (client.connectionStatus.state == MqttConnectionState.connected) {
       print('EXAMPLE::Mosquitto client connected');
-      subscribe("C2C/1"); // 监听自己
     } else {
       /// Use status here rather than state if you also want the broker return code.
       print(
@@ -132,8 +131,10 @@ class Mqtt {
       print(
           'recieve:: topic is <${c[0]
               .topic}>, payload is <-- $pt -->');
-      ConversationData data = new ConversationData.fromJson(json.decode(pt));
-      eventBus.fire(new ChatEvent(sender: data.sender, peer: data.peer, content: data.content));
+      Chat chat = new Chat.fromJson(json.decode(pt));
+      // 注意，对于一对一类型(C2C)。这里我们把对方用户的id作为房间号。用以记录我们和
+      // 对方在房间号为对方用户id的房间中聊天的记录。
+      eventBus.fire(new ChatEvent(sender: chat.sender, roomId: chat.sender, content: chat.content));
     });
 
     /// If needed you can listen for published messages that have completed the publishing

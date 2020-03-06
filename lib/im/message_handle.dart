@@ -2,7 +2,7 @@ import '../common/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import './model/conversation_data.dart';
+import './model/chat.dart';
 import 'package:sprintf/sprintf.dart';
 
 import '../tools/wechat_flutter.dart';
@@ -53,11 +53,12 @@ Future<dynamic> getDimMessages(String id,
     return map[id];*/
 
     String str = "[ ";
-    ConversationData conversation = new ConversationData();
-    var list = await conversation.selectSome(id: id, offset: 0, limit: num);
+    Chat chat = new Chat();
+    var list = await chat.selectSome(roomId: id, offset: 0, limit: num);
     for (var cov in list) {
-      str += sprintf('{"sender": "%s", "message": { "text": "%s", "type": "Text" }, "timeStamp": %d },',
-      [cov.sender, cov.content, cov.createTime]);
+      str += sprintf(
+          '{"sender": "%s", "message": { "text": "%s", "type": "Text" }, "timeStamp": %d },',
+          [cov.sender, cov.content, cov.createTime]);
     }
     str = str.substring(0, str.length - 1) + ']';
     debugPrint(str);
@@ -67,10 +68,14 @@ Future<dynamic> getDimMessages(String id,
   }
 }
 
-Future<dynamic> addMessage(String sender, String peer, String content) async {
+Future<dynamic> addMessage(String sender, String roomId, String content) async {
   try {
-    ConversationData conversation = new ConversationData(sender: sender, peer: peer, content: content, createTime: DateTime.now().millisecondsSinceEpoch);
-    var lastId = await conversation.insert(conversation);
+    Chat chat = new Chat(
+        sender: sender,
+        roomId: roomId,
+        content: content,
+        createTime: DateTime.now().millisecondsSinceEpoch);
+    var lastId = await chat.insert(chat);
     return lastId;
   } on PlatformException {
     debugPrint('insert failed');

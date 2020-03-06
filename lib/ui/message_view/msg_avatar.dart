@@ -12,6 +12,14 @@ class MsgAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String img;
+    /*if (model.userId == globalModel.userId) { // 是自己
+      if (null == model.avatar || '' == model.avatar)
+        img = defIcon;
+      else
+        img = model.avatar;
+    }*/
+      img = model.avatar;
     return new InkWell(
       child: new Container(
         decoration: BoxDecoration(
@@ -23,7 +31,7 @@ class MsgAvatar extends StatelessWidget {
           /*img: model.id == globalModel.account // 如果是自己，就把自己的头像显示上去；否则显示别人的头像
               ? globalModel.avatar??defIcon
               : model.avatar,*/
-          img: defIcon,
+          img: img,
           height: 50,
           width: 50,
           fit: BoxFit.cover,
@@ -33,7 +41,7 @@ class MsgAvatar extends StatelessWidget {
         routePush(new ContactsDetailsPage(
           title: model.nickName,
           avatar: model.avatar,
-          id: model.id,
+          id: model.userId,
         ));
       },
     );

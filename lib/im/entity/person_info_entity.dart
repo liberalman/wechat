@@ -17,7 +17,7 @@
 * */
 class PersonInfoEntity {
   int birthday;
-  String identifier;
+  String userId;
   int role;
   int gender;
   int level;
@@ -32,7 +32,7 @@ class PersonInfoEntity {
 
   PersonInfoEntity(
       {this.birthday,
-        this.identifier,
+        this.userId,
         this.role,
         this.gender,
         this.level,
@@ -47,7 +47,7 @@ class PersonInfoEntity {
 
   PersonInfoEntity.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
-    identifier = json['identifier'];
+    userId = json['userId'];
     role = json['role'];
     gender = json['gender'];
     level = json['level'];
@@ -68,7 +68,7 @@ class PersonInfoEntity {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['birthday'] = this.birthday;
-    data['identifier'] = this.identifier;
+    data['userId'] = this.userId;
     data['role'] = this.role;
     data['gender'] = this.gender;
     data['level'] = this.level;

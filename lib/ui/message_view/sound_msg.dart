@@ -117,7 +117,7 @@ class _SoundMsgState extends State<SoundMsg> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final globalModel = Provider.of<GlobalModel>(context);
-    bool isSelf = widget.model.id == globalModel.account;
+    bool isSelf = widget.model.userId == globalModel.userId;
     var soundImg;
     var leftSoundNames = [
       'assets/images/chat/sound_left_0.webp',
@@ -168,7 +168,7 @@ class _SoundMsgState extends State<SoundMsg> with TickerProviderStateMixin {
             ],
           ),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          color: widget.model.id == globalModel.account
+          color: widget.model.userId == globalModel.userId
               ? Color(0xff98E165)
               : Colors.white,
           onPressed: () {

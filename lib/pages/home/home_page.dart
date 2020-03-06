@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage>
   var isNull = false;
   TextSpanBuilder _builder = TextSpanBuilder();
   StreamSubscription<dynamic> _messageStreamSubscription;
+  String userId;
 
   @override
   void initState() {
@@ -88,7 +89,9 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> initPlatformState() async {
-    if (!mounted) return;
+    userId = await SharedUtil.getInstance().getString(Keys.userId);
+    if (!mounted)
+      return;
 
     if (_messageStreamSubscription == null) {
       //_messageStreamSubscription =
@@ -140,7 +143,7 @@ class _HomePageState extends State<HomePage>
             return InkWell(
               onTap: () {
                 routePush(new ChatPage(
-                    id: model.identifier,
+                    peer: model.userId,
                     title: model.name,
                     type: model.type == 'Group' ? 2 : 1));
               },
@@ -150,7 +153,7 @@ class _HomePageState extends State<HomePage>
               onLongPress: () {
                 if (Platform.isAndroid) {
                   _showMenu(context, tapPos, model.type == 'Group' ? 2 : 1,
-                      model.identifier);
+                      model.userId);
                 } else {
                   debugPrint("IOS聊天长按选项功能开发中");
                 }

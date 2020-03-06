@@ -186,7 +186,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
       if (Platform.isIOS) {
         IPersonInfoEntity model = IPersonInfoEntity.fromJson(dataMap[0]);
         if (strNoEmpty(model.allowType.toString())) {
-          routePush(new AddFriendsDetails('search', model.identifier,
+          routePush(new AddFriendsDetails('search', model.userId,
               model.avatar, model.nickname, model.gender));
         } else {
           isResult = true;
@@ -194,7 +194,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
       } else {
         PersonInfoEntity model = PersonInfoEntity.fromJson(dataMap[0]);
         if (strNoEmpty(model.allowType)) {
-          routePush(new AddFriendsDetails('search', model.identifier,
+          routePush(new AddFriendsDetails('search', model.userId,
               model.avatar, model.nickName, model.gender));
         } else {
           isResult = true;

@@ -18,7 +18,7 @@ class ChatList {
   ChatList({
     @required this.avatar,
     @required this.name,
-    @required this.identifier,
+    @required this.userId,
     @required this.content,
     @required this.time,
     @required this.type,
@@ -29,7 +29,7 @@ class ChatList {
   final String name;
   final int time;
   final Map content;
-  final String identifier;
+  final String userId;
   final dynamic type;
   final String msgType;
 }
@@ -46,7 +46,7 @@ class ChatListData {
     String avatar;
     String name;
     int time;
-    String identifier;
+    String userId;
     dynamic type;
     String msgType;
 
@@ -58,7 +58,7 @@ class ChatListData {
       for (int i = 0; i < data.length; i++) {
         ChatListEntity model = ChatListEntity.fromJson(data[i]);
         type = model?.type ?? 'C2C';
-        identifier = model?.peer ?? '';
+        userId = model?.peer ?? '';
 
         final profile = await getUsersProfile([model.peer]);
         List<dynamic> profileData = json.decode(profile);
@@ -73,7 +73,7 @@ class ChatListData {
             }
             name = strNoEmpty(info?.nickname)
                 ? info?.nickname
-                : identifier ?? '未知';
+                : userId ?? '未知';
           } else {
             PersonInfoEntity info = PersonInfoEntity.fromJson(profileData[i]);
             if (strNoEmpty(info?.avatar) && info?.avatar != '[]') {
@@ -83,7 +83,7 @@ class ChatListData {
             }
             name = strNoEmpty(info?.nickName)
                 ? info?.nickName
-                : identifier ?? '未知';
+                : userId ?? '未知';
           }
         }
 
@@ -99,7 +99,7 @@ class ChatListData {
           0,
           new ChatList(
             type: type,
-            identifier: identifier,
+            userId: userId,
             avatar: avatar,
             name: name,
             time: time,

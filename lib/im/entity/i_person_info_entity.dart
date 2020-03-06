@@ -1,8 +1,7 @@
 class IPersonInfoEntity {
   int birthday;
-  //String faceURL;
   String avatar;
-  String identifier;
+  String userId;
   int role;
   int gender;
   int level;
@@ -14,7 +13,7 @@ class IPersonInfoEntity {
   IPersonInfoEntity(
       {this.birthday,
         this.avatar,
-        this.identifier,
+        this.userId,
         this.role,
         this.gender,
         this.level,
@@ -26,7 +25,7 @@ class IPersonInfoEntity {
   IPersonInfoEntity.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'];
     avatar = json['avatar']; // faceURL
-    identifier = json['identifier'];
+    userId = json['userId'];
     role = json['role'];
     gender = json['gender'];
     level = json['level'];
@@ -42,7 +41,7 @@ class IPersonInfoEntity {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['birthday'] = this.birthday;
     data['avatar'] = this.avatar;
-    data['identifier'] = this.identifier;
+    data['userId'] = this.userId;
     data['role'] = this.role;
     data['gender'] = this.gender;
     data['level'] = this.level;

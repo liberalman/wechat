@@ -1,28 +1,28 @@
 import 'package:wechat/tools/sqlite_helper.dart';
 
-class ConversationData {
-  final String tableName = "conversation_data";
+class Chat {
+  final String tableName = "chat";
 
   // sqlite不支持bool型
-  int id; // 会话id
-  String sender; // 用户id
-  String peer; // 对方userid
+  int id; // message id
+  String roomId; // 房间号
+  String sender; // 发信息的用户id
   int createTime; // 创建时间
   String content; // 内容
 
-  ConversationData({this.id, this.sender, this.peer, this.content, this.createTime});
+  Chat({this.id, this.sender, this.roomId, this.content, this.createTime});
 
-  ConversationData.fromSql(Map<String, dynamic> json) {
+  Chat.fromSql(Map<String, dynamic> json) {
     id = json['id'];
-    peer = json['peer'];
+    roomId = json['room_id'];
     content = json['content'];
     sender = json['sender'];
     createTime = json['create_time'];
   }
 
-  ConversationData.fromJson(Map<String, dynamic> json) {
+  Chat.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    peer = json['peer'];
+    roomId = json['room_id'];
     content = json['content'];
     sender = json['sender'];
     createTime = json['create_time'];
@@ -31,32 +31,32 @@ class ConversationData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['peer'] = this.peer;
+    data['room_id'] = this.roomId;
     data['content'] = this.content;
     data['sender'] = this.sender;
     data['create_time'] = this.createTime;
     return data;
   }
 
-  Future<int> insert(ConversationData conversation) async {
+  Future<int> insert(Chat chat) async {
     var dbClient = await SqliteHelper().db;
-    var result = await dbClient.insert(tableName, conversation.toJson());
+    var result = await dbClient.insert(tableName, chat.toJson());
 
     return result;
   }
 
-  Future<List> selectSome({String id, int limit, int offset}) async {
+  Future<List> selectSome({String roomId, int limit, int offset}) async {
     var dbClient = await SqliteHelper().db;
     var result = await dbClient.query(
       tableName,
-      columns: ["id", "sender", "peer", "content", "create_time"],
+      columns: ["id", "room_id", "sender", "content", "create_time"],
       limit: limit,
       offset: offset,
-      where: 'sender = ? or peer = ?', whereArgs: [id, id],
+      where: 'room_id = ?', whereArgs: [roomId],
       orderBy: "-create_time",
     );
-    List<ConversationData> results = [];
-    result.forEach((item) => results.add(ConversationData.fromSql(item)));
+    List<Chat> results = [];
+    result.forEach((item) => results.add(Chat.fromSql(item)));
     return results;
   }
 

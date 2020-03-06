@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:wechat/config/const.dart';
-import 'package:wechat/ui/bar/common_bar.dart';
-import 'package:wechat/ui/button/common_button.dart';
+import '../../config/const.dart';
+import '../../ui/bar/common_bar.dart';
+import '../../ui/button/common_button.dart';
 import '../../ui/view/main_input.dart';
 import '../../ui/ui.dart';
 import '../../ui/dialog/show_toast.dart';
@@ -31,8 +31,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   initEdit() async {
-    final user = await SharedUtil.getInstance().getString(Keys.account);
-    _textEditingController.text = user ?? '';
+    final account = await SharedUtil.getInstance().getString(Keys.account);
+    //_textEditingController.text = account ?? '';
+    _textEditingController.text = 'test@test.com';
   }
 
   Widget body(LoginModel model) {

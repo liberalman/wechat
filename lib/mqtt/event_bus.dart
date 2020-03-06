@@ -5,10 +5,10 @@ EventBus eventBus = EventBus();
 /// Event 修改主题色
 class ChatEvent {
   String sender;
-  String peer;
+  String roomId;
   String content;
 
-  ChatEvent({this.sender, this.peer, this.content});
+  ChatEvent({this.sender, this.roomId, this.content});
 }
 
 

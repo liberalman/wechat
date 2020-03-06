@@ -11,12 +11,12 @@ class ConversationModel extends ChangeNotifier {
   // 添加一条聊天信息
   void add(ChatData chatData) {
     // 如果同该用户的聊天列表已经存在，则直接插入聊天列表中
-    if (_conversations.containsKey(chatData.id)) {
-      _conversations[chatData.id].add(chatData);
+    if (_conversations.containsKey(chatData.userId)) {
+      _conversations[chatData.userId].add(chatData);
     } else { // 否则先新增聊天列表，再添加聊天内容
       List<ChatData> list = new List();
       list.add(chatData);
-      _conversations[chatData.id] = list;
+      _conversations[chatData.userId] = list;
     }
     // 通知监听器（订阅者），重新构建InheritedProvider， 更新状态。
     notifyListeners();
@@ -26,8 +26,8 @@ class ConversationModel extends ChangeNotifier {
 
   // 删除一条聊天信息
   void delete(ChatData chatData) {
-    if (_conversations.containsKey(chatData.id)) {
-      _conversations[chatData.id].removeWhere((value){
+    if (_conversations.containsKey(chatData.userId)) {
+      _conversations[chatData.userId].removeWhere((value){
         if (value.time == chatData.time)
           return true;
         else

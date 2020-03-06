@@ -16,13 +16,13 @@ class Contact {
     @required this.avatar,
     @required this.name,
     @required this.nameIndex,
-    @required this.identifier,
+    @required this.userId,
   });
 
   final String avatar;
   final String name;
-  final String nameIndex;
-  final String identifier;
+  final String nameIndex; // 通讯录要按姓名字母排序
+  final String userId;
 }
 
 class ContactsPageData {
@@ -41,22 +41,20 @@ class ContactsPageData {
     String remark;
 
     final contactsData = await SharedUtil.getInstance().getString(Keys.contacts);
-    final user = await SharedUtil.getInstance().getString(Keys.account);
-    final result = await getContactsFriends(user);
+    final userId = await SharedUtil.getInstance().getString(Keys.userId);
+    final result = await getContactsFriends(userId);
 
     getMethod(result) async {
-      //if (!listNoEmpty(result))
-      //  return contacts;
       List<dynamic> dataMap = json.decode(result);
       int dLength = dataMap.length;
       for (int i = 0; i < dLength; i++) {
         if (Platform.isIOS) {
           IContactInfoEntity model = IContactInfoEntity.fromJson(dataMap[i]);
           avatar = model.profile.avatar;
-          identifier = model.identifier;
-          remark = await getRemarkMethod(model.identifier, callback: (_) {});
+          identifier = model.userId;
+          remark = await getRemarkMethod(model.userId, callback: (_) {});
           nickName = model.profile.nickname;
-          nickName = !strNoEmpty(nickName) ? model.identifier : nickName;
+          nickName = !strNoEmpty(nickName) ? model.userId : nickName;
           contacts.insert(
             0,
             new Contact(
@@ -64,16 +62,17 @@ class ContactsPageData {
               name: !strNoEmpty(remark) ? nickName : remark,
               //nameIndex:
               //PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
-              identifier: identifier,
+              nameIndex: nickName,
+              userId: userId,
             ),
           );
         } else {
           PersonInfoEntity model = PersonInfoEntity.fromJson(dataMap[i]);
           avatar = model.avatar;
-          identifier = model.identifier;
-          remark = await getRemarkMethod(model.identifier, callback: (_) {});
+          identifier = model.userId;
+          remark = await getRemarkMethod(model.userId, callback: (_) {});
           nickName = model.nickName;
-          nickName = !strNoEmpty(nickName) ? model.identifier : nickName;
+          nickName = !strNoEmpty(nickName) ? model.userId : nickName;
           contacts.insert(
             0,
             new Contact(
@@ -81,7 +80,8 @@ class ContactsPageData {
               name: !strNoEmpty(remark) ? nickName : remark,
               //nameIndex:
               //PinyinHelper.getFirstWordPinyin(nickName)[0].toUpperCase(),
-              identifier: identifier,
+              nameIndex: nickName,
+              userId: userId,
             ),
           );
         }

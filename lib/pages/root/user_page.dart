@@ -32,11 +32,15 @@ class _UserPageState extends State<UserPage> {
 
   action(UserData model) {
     addFriend(
-      model.identifier,
+      model.userId,
       context,
       suCc: (v) {
         if (v) {
-          sendTextMsg(model.identifier, 1, '你好${model.name}，我添加你为好友啦');
+          sendTextMsg(
+              SharedUtil.getInstance().getString(Keys.userId).toString(),
+              model.userId,
+              1,
+              '你好${model.nickName}，我添加你为好友啦');
           Navigator.of(context).maybePop();
         }
       },
@@ -52,7 +56,7 @@ class _UserPageState extends State<UserPage> {
         UserData model = _userData[index];
         return new NewFriendCard(
           img: model.avatar,
-          name: model.name,
+          name: model.nickName,
           isAdd: model.isAdd,
           onTap: () => action(model),
         );

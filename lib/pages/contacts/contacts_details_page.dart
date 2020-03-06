@@ -26,6 +26,7 @@ class ContactsDetailsPage extends StatefulWidget {
 }
 
 class _ContactsDetailsPageState extends State<ContactsDetailsPage> {
+  var userId = SharedUtil.getInstance().getString(Keys.userId).toString();
   List<Widget> body(bool isSelf) {
     return [
       new ContactCard(
@@ -58,8 +59,10 @@ class _ContactsDetailsPageState extends State<ContactsDetailsPage> {
         margin: EdgeInsets.only(top: 10.0),
         text: '发消息',
         isBorder: true,
-        onPressed: () => routePushReplace(
-            new ChatPage(id: widget.id, title: widget.title, type: 1)), // 跳转到聊天页面
+        onPressed: () => routePushReplace(new ChatPage(
+            peer: widget.id,
+            title: widget.title,
+            type: 1)), // 跳转到聊天页面
       ),
       new Visibility(
         visible: !isSelf,
@@ -83,8 +86,8 @@ class _ContactsDetailsPageState extends State<ContactsDetailsPage> {
           padding: EdgeInsets.all(0),
           onPressed: () =>
               friendItemDialog(context, userId: widget.id, suCc: (v) {
-                if (v) Navigator.of(context).maybePop();
-              }),
+            if (v) Navigator.of(context).maybePop();
+          }),
           child: new Image.asset(contactAssets + 'ic_contacts_details.png'),
         ),
       )

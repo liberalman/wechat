@@ -1,19 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../im/model/conversation_data.dart';
 
 class SqliteHelper {
   static final SqliteHelper _instance = new SqliteHelper.internal();
   static Database _db;
 
   factory SqliteHelper() => _instance;
-
-  final String tableName = 'conversation_data';
-  final String columnId = 'id';
-  final String peer = "peer";
-  final String content = 'content';
-  final String sender = 'sender';
-  final String createTime = 'create_time';
 
   SqliteHelper.internal();
 
@@ -38,17 +30,19 @@ class SqliteHelper {
   }
 
   void _onCreate(Database db, int newVersion) async {
+    // 您不能精确地完成所要求的操作，但与某些RDBMS不同，SQLite能够在事务中执行DDL，并具有适当的结果。
     await db.execute('''
-        CREATE TABLE $tableName (
-        $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $sender TEXT,
-        $peer TEXT,
-        $content TEXT,
-        $createTime INTEGER)
+        CREATE TABLE IF NOT EXISTS chat (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        room_id TEXT,
+        sender TEXT,
+        content TEXT,
+        create_time INTEGER);
+        CREATE INDEX idx_room_id ON chat(room_id);
     ''');
   }
 
-  Future<int> insert(ConversationData conversation) async {
+  /*Future<int> insert(ConversationData conversation) async {
     var dbClient = await db;
     var result = await dbClient.insert(tableName, conversation.toJson());
 
@@ -98,7 +92,7 @@ class SqliteHelper {
     var dbClient = await db;
     return await dbClient.update(tableName, video.toJson(),
         where: "$columnId = ?", whereArgs: [video.id]);
-  }
+  }*/
 
   Future close() async {
     var dbClient = await db;

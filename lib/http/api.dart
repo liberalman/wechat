@@ -1,3 +1,5 @@
+import 'package:sprintf/sprintf.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +10,40 @@ import '../tools/wechat_flutter.dart';
 import '../ui/dialog/update_dialog.dart';
 import './req.dart';
 import '../config/api.dart';
+
+//post请求
+POST_WITHOUT_LOGIN(String path, {Object formData}) async {
+  var url = Uri.https(API.ROOT, API.PATH + path);
+  var res = await http.post(url, body: formData);
+  if (200 == res.statusCode)
+    return res.body;
+  else
+    return sprintf("%d , %s", [res.statusCode, res.reasonPhrase]);
+}
+
+POST(String path, {Object formData}) async {
+  final accessToken = await SharedUtil.getInstance().getString(Keys.accessToken);
+  var url = Uri.https(API.ROOT, API.PATH + path);
+  var res = await http.post(url, body: formData, headers: {
+    "Content-Type": "application/json;charset=UTF-8",
+    "x-csrf-token": "_1550219423482_2238",
+    "Authorization": "Bearer " + accessToken
+  });
+  if (200 == res.statusCode)
+    return res.body;
+  else
+    return sprintf("%d , %s", [res.statusCode, res.reasonPhrase]);
+}
+
+//get请求
+GET(String path) async {
+  var url = Uri.https(API.ROOT, API.PATH + path);
+  var res = await http.post(url);
+  if (200 == res.statusCode)
+    return res.body;
+  else
+    return sprintf("%d , %s", [res.statusCode, res.reasonPhrase]);
+}
 
 /// 随机头像 [Random avatar]
 void postSuggestionWithAvatar(BuildContext context) async {

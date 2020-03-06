@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:sprintf/sprintf.dart';
 import 'package:flutter/material.dart';
+import 'package:wechat/config/provider_config.dart';
+import 'package:wechat/im/all_im.dart';
 import '../../im/model/chat_data.dart';
 import './chat_more_page.dart';
 import '../../ui/chat/chat_details_body.dart';
@@ -22,16 +24,17 @@ import '../../tools/data/data.dart';
 import '../../config/const.dart';
 import '../../mqtt/event_bus.dart';
 import '../../mqtt/mqtt_server_client.dart';
+import '../../provider/global_model.dart';
+import 'package:provider/provider.dart';
 
 enum ButtonType { voice, more }
 
 class ChatPage extends StatefulWidget {
   final String title;
   final int type;
-  final String id;
   final String peer;
 
-  ChatPage({this.id, this.peer, this.title, this.type = 1});
+  ChatPage({this.peer, this.title, this.type = 1});
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -43,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
   bool _isVoice = false;
   bool _isMore = false;
   double keyboardHeight = 270.0;
+  String sender = '';
 
   TextEditingController _textController = TextEditingController();
   FocusNode _focusNode = new FocusNode();
@@ -60,56 +64,29 @@ class _ChatPageState extends State<ChatPage> {
     Notice.addListener(WeChatActions.msg(), (v) => getChatMsgData());
   }
 
-  /*void insertText(String text) {
-    var value = _textController.value;
-    var start = value.selection.baseOffset;
-    var end = value.selection.extentOffset;
-    if (value.selection.isValid) {
-      String newText = '';
-      if (value.selection.isCollapsed) {
-        if (end > 0) {
-          newText += value.text.substring(0, end);
-        }
-        newText += text;
-        if (value.text.length > end) {
-          newText += value.text.substring(end, value.text.length);
-        }
-      } else {
-        newText = value.text.replaceRange(start, end, text);
-        end = start;
-      }
-
-      _textController.value = value.copyWith(
-          text: newText,
-          selection: value.selection.copyWith(
-              baseOffset: end + text.length, extentOffset: end + text.length));
-    } else {
-      _textController.value = TextEditingValue(
-          text: text,
-          selection:
-          TextSelection.fromPosition(TextPosition(offset: text.length)));
-    }
-  }*/
-
   Future<void> initPlatformState() async {
-    if (!mounted) return;
+    if (!mounted)
+      return;
 
+    // 用以下命令测试往当前用户发送消息，看看监听是否有效
+    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"2\",\"room_id\":\"5c566802128c810b3772f9e5\",\"content\":\"yes,i know\"}"
     //订阅eventbus
     if (_msgStreamSubs == null) {
       //_msgStreamSubs = im.onMessage.listen((dynamic onData) => getChatMsgData());
-      _msgStreamSubs = eventBus.on<ChatEvent>().listen((event) {
+      _msgStreamSubs = eventBus.on<ChatEvent>().listen((event) { // 监听从远程mqtt服务器下发的消息
         _textController.clear();
-        ChatDataRep().addData(event.sender, event.peer, event.content);
+        addMessage(event.sender, event.roomId, event.content);
         chatData.insert(0, new ChatData(msg: {"text": event.content}));
         if (mounted)
           setState(() {});
-        sendTextMsg('${widget.id}', widget.type, event.content); // 这个是显示在屏幕上
+        //sendTextMsg('${widget.peer}', sender, widget.type, event.content); // 这个是显示在屏幕上
       });
     }
   }
 
   Future getChatMsgData() async {
-    final str = await ChatDataRep().repData(widget.id, widget.type);
+    // 如果是一对一聊天，则直接使用对方的用户id作为房间号，这样好识别。
+    final str = await ChatDataRep().repData(widget.peer, widget.type);
     List<ChatData> listChat = str;
     chatData.clear();
     chatData..addAll(listChat.reversed);
@@ -122,12 +99,12 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _handleSubmittedData(String text) async {
-    await ChatDataRep().addData("1", widget.id, text);
+    //await ChatDataRep().addData(sender, '${widget.peer}', text);
     _textController.clear();
     chatData.insert(0, new ChatData(msg: {"text": text}));
     if (mounted)
       setState(() {});
-    await sendTextMsg('${widget.id}', widget.type, text); // 这个是显示在屏幕上
+    await sendTextMsg(sender, '${widget.peer}', widget.type, text); // 这个是显示在屏幕上
   }
 
   onTapHandle(ButtonType type) {
@@ -186,6 +163,8 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<GlobalModel>(context);
+    sender = model.userId;
     if (keyboardHeight == 270.0 &&
         MediaQuery.of(context).viewInsets.bottom != 0) {
       keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
@@ -206,7 +185,7 @@ class _ChatPageState extends State<ChatPage> {
           onTap: () => _handleSubmittedData(_textController.text), // 发送消息
           moreTap: () => onTapHandle(ButtonType.more),
         ),
-        id: widget.id,
+        id: widget.peer,
         type: widget.type,
       ),
       new Container(
@@ -219,7 +198,7 @@ class _ChatPageState extends State<ChatPage> {
           pages: List.generate(2, (index) {
             return new ChatMorePage(
               index: index,
-              id: widget.id,
+              id: widget.peer,
               type: widget.type,
               keyboardHeight: keyboardHeight,
             );
@@ -231,7 +210,7 @@ class _ChatPageState extends State<ChatPage> {
     var rWidget = [
       new InkWell(
         child: new Image.asset('assets/images/right_more.png'),
-        onTap: () => routePush(new ChatInfoPage(widget.id)),
+        onTap: () => routePush(new ChatInfoPage(widget.peer)),
       )
     ];
 

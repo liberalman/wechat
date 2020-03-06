@@ -6,6 +6,7 @@ import '../im/info_handle.dart';
 import '../tools/shared_util.dart';
 import '../config/keys.dart';
 import '../im/entity/i_person_info_entity.dart';
+import '../mqtt/mqtt_server_client.dart';
 
 class GlobalModel extends ChangeNotifier {
   BuildContext context;
@@ -13,8 +14,10 @@ class GlobalModel extends ChangeNotifier {
   String appName = "wechat";
 
   // user infomation
-  String account = '1';
-  String nickName = 'Tom';
+  String userId = '';
+  String account = ''; // 对应远程服务端的email
+  String accessToken = '';
+  String nickName = '';
   String avatar = 'http://cdn.duitang.com/uploads/item/201409/18/20140918141220_N4Tic.thumb.700_0.jpeg';
   int gender = 0; // 0 male, 1 female
 
@@ -24,7 +27,7 @@ class GlobalModel extends ChangeNotifier {
   Locale currentLocale;
 
   // has gone to login page?
-  bool goToLogin = false;
+  bool goToLogin = true;
 
   GlobalLogic logic;
 
@@ -46,13 +49,15 @@ class GlobalModel extends ChangeNotifier {
   }
 
   void refresh() {
-    if (!goToLogin) initInfo(); // 已登录，载入个人信息
+    if (!goToLogin)
+      initInfo(); // 已登录，载入个人信息
+    Mqtt.getInstance().subscribe("C2C/" + userId); // 订阅自己的主题
     notifyListeners(); // 这个方法是通知那些用到GlobalModel对象的widget刷新用的。
   }
 
   void initInfo() async {
     // 获取自己的用户信息
-    final data = await getUsersProfile([account]);
+    final data = await getUsersProfile([userId]);
     if (null == data)
       return;
     List<dynamic> result = json.decode(data);

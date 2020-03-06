@@ -21,11 +21,11 @@ class TextMsg extends StatelessWidget {
       new TextItemContainer( // 消息条显示
         text: text ?? '文字为空',
         action: '',
-        isMyself: model.id == globalModel.account,
+        isMyself: model.userId == globalModel.account,
       ),
       new Spacer(),
     ];
-    if (model.id == globalModel.account) { //检查消息是不是自己发的
+    if (model.userId == globalModel.userId) { //检查消息是不是自己发的
       body = body.reversed.toList();
     } else {
       body = body;
