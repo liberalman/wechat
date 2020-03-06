@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:sprintf/sprintf.dart';
 import 'package:flutter/material.dart';
 import 'package:wechat/config/provider_config.dart';
@@ -26,6 +27,8 @@ import '../../mqtt/event_bus.dart';
 import '../../mqtt/mqtt_server_client.dart';
 import '../../provider/global_model.dart';
 import 'package:provider/provider.dart';
+import '../../im/info_handle.dart';
+import '../../im/entity/i_person_info_entity.dart';
 
 enum ButtonType { voice, more }
 
@@ -65,21 +68,31 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> initPlatformState() async {
-    if (!mounted)
-      return;
+    if (!mounted) return;
 
     // 用以下命令测试往当前用户发送消息，看看监听是否有效
-    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"2\",\"room_id\":\"5c566802128c810b3772f9e5\",\"content\":\"yes,i know\"}"
+    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"2\",\"content\":\"yes,i know\"}"
     //订阅eventbus
     if (_msgStreamSubs == null) {
       //_msgStreamSubs = im.onMessage.listen((dynamic onData) => getChatMsgData());
-      _msgStreamSubs = eventBus.on<ChatEvent>().listen((event) { // 监听从远程mqtt服务器下发的消息
+      _msgStreamSubs = eventBus.on<ChatEvent>().listen((event) {
+        // 监听从远程mqtt服务器下发的消息
         _textController.clear();
         addMessage(event.sender, event.roomId, event.content);
-        chatData.insert(0, new ChatData(msg: {"text": event.content}));
-        if (mounted)
-          setState(() {});
-        //sendTextMsg('${widget.peer}', sender, widget.type, event.content); // 这个是显示在屏幕上
+
+        getUserProfile(event.roomId).then((value){  // 根据发送者id查询他的详情，注意，实际消息的发送者就是roomId。
+          IPersonInfoEntity model = IPersonInfoEntity.fromJson(json.decode(value));
+
+          chatData.insert(
+              0,
+              new ChatData( // 必须把详情补全，否则将来在显示页面的时候，因为上游数据缺失，传递到最底层 msg_avatar.dart中的数据也缺了，导致无法正常显示聊天页面。
+                  userId: model.userId,
+                  nickName: model.nickname,
+                  avatar: model.avatar,
+                  time: DateTime.now().millisecondsSinceEpoch,
+                  msg: {"text": event.content}));
+          if (mounted) setState(() {});
+        });
       });
     }
   }
@@ -99,11 +112,20 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _handleSubmittedData(String text) async {
-    //await ChatDataRep().addData(sender, '${widget.peer}', text);
     _textController.clear();
-    chatData.insert(0, new ChatData(msg: {"text": text}));
-    if (mounted)
-      setState(() {});
+
+    final info = await getUserProfile(sender); // 根据发送者id查询他的详情
+    IPersonInfoEntity model = IPersonInfoEntity.fromJson(json.decode(info));
+
+    chatData.insert(
+        0,
+        new ChatData(
+            userId: model.userId,
+            nickName: model.nickname,
+            avatar: model.avatar,
+            time: DateTime.now().millisecondsSinceEpoch,
+            msg: {"text": text}));
+    if (mounted) setState(() {});
     await sendTextMsg(sender, '${widget.peer}', widget.type, text); // 这个是显示在屏幕上
   }
 

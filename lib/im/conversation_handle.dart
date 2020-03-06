@@ -6,7 +6,9 @@ import '../tools/wechat_flutter.dart';
 
 Future<dynamic> getConversationsListData({Callback callback}) async {
   try {
-    var result = '[{"peer":"2","type":"C2C","mConversation":{"text":"bbbb"}},'
+    var result = '[{"peer":"5c566802128c810b3772f9e5","type":"C2C","mConversation":{"text":"bbbb"}},'
+        '{"peer":"5a5624e4ba18d80e4dd3162b","type":"C2C","mConversation":{"text":"bbbb"}},'
+        '{"peer":"2","type":"C2C","mConversation":{"text":"bbbb"}},'
         '{"peer":"3","type":"C2C","mConversation":{"text":"aaaa"}}]';
     String strData = result.toString().replaceAll("'", '"');
     return strData;

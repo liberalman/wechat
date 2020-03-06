@@ -51,7 +51,6 @@ class GlobalModel extends ChangeNotifier {
   void refresh() {
     if (!goToLogin)
       initInfo(); // 已登录，载入个人信息
-    Mqtt.getInstance().subscribe("C2C/" + userId); // 订阅自己的主题
     notifyListeners(); // 这个方法是通知那些用到GlobalModel对象的widget刷新用的。
   }
 

@@ -11,6 +11,7 @@ import '../provider/global_model.dart';
 import '../pages/login/login_begin_page.dart';
 import '../tools/wechat_flutter.dart';
 import '../http/api.dart';
+import '../mqtt/mqtt_server_client.dart';
 
 Future<void> init(BuildContext context) async {
   try {
@@ -70,6 +71,7 @@ Future<void> login(BuildContext context, String account) async {
       await SharedUtil.getInstance().saveString(Keys.userId, model.userId);
       await SharedUtil.getInstance().saveBoolean(Keys.hasLogged, true);
       model.refresh(); // 刷新用户数据
+      Mqtt.getInstance().subscribe("C2C/" + model.userId); // 订阅自己的主题
       await routePushAndRemove(new RootPage()); // 返回主页
     } else {
       showToast(context, 'error::' + result);
