@@ -61,7 +61,10 @@ class Config {
           "expires_at"
         ],
         limit: 1);
-    return Config.fromSql(result[0]);
+    if(result.length > 0)
+      return Config.fromSql(result[0]);
+    else
+      return null;
   }
 
   Future<int> delete(int id) async {

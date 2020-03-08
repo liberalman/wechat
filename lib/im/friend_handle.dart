@@ -5,6 +5,7 @@ import 'package:sprintf/sprintf.dart';
 import '../ui/dialog/show_toast.dart';
 import '../common/route.dart';
 import '../http/api.dart';
+import './model/friend.dart';
 
 typedef OnSuCc = void Function(bool v);
 
@@ -67,23 +68,46 @@ Future<dynamic> getContactsFriends(String userId) async {
         '"profile":{"nickname":"Andy","avatar":"https://1.gravatar.com/avatar/a3e54af3cb6e157e496ae430aed4f4a3?s=96&d=mm","gender":0,'
         '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
         '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} }]';*/
-    var res = await GET("/friends?page=1&size=2&sort_name=created&sort_order=false");
-    String str = res.toString();
-    String result = "[ ";
 
-    if (str.contains('list')) {
-      var list = json.decode(str)['list'];
-      for( var friend in list ) {
+    // 先尝试从本地加载
+    String result = "[ ";
+    Friend friend = new Friend();
+    var list = await friend.selectSome(limit: 100, offset: 0);
+    if (list.length > 0) {
+      for (var f in list) {
         result += sprintf(
+            '{"userId": "%s", "addTime":1583292499,"addWording":"1","addSource":"",'
+                '"profile":{"nickname":"%s","avatar":"%s","gender":0,'
+                '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
+                '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{},"remark":"" },',
+            [f.id, f.nickName, f.avatar]);
+      }
+      result = result.substring(0, result.length - 1) + ']';
+    } else {
+      // 从网络加载
+      var res = await GET("/friends?page=1&size=2&sort_name=created&sort_order=false");
+      String str = res.toString();
+
+      if (str.contains('list')) {
+        var list = json.decode(str)['list'];
+        for( var f in list ) {
+          result += sprintf(
               '{"userId": "%s", "addTime":1583292499,"addWording":"1","addSource":"",'
                   '"profile":{"nickname":"%s","avatar":"%s","gender":0,'
                   '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
                   '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{},"remark":"%s" },',
-              [friend['_id'], friend['nickname'], friend['avatar'], friend['description']]);
+              [f['_id'], f['nickname'], f['avatar'], f['description']]);
+
+          // 写入本地数据库
+          friend.nickName = f['nickname'];
+          friend.avatar = f['avatar'];
+          friend.id = f['_id'];
+          await friend.insert(friend);
+        }
+        result = result.substring(0, result.length - 1) + ']';
+      } else {
+        debugPrint('获取好友列表  失败，返回 ' + result);
       }
-      result = result.substring(0, result.length - 1) + ']';
-    } else {
-      debugPrint('获取好友列表  失败，返回 ' + result);
     }
     return result;
   } on PlatformException {

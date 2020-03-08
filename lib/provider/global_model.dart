@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:wechat/provider/logic/global_logic.dart';
+
+import '../im/model/config.dart';
 import '../im/info_handle.dart';
+import '../provider/logic/global_logic.dart';
+import '../mqtt/mqtt_server_client.dart';
 import '../tools/shared_util.dart';
 import '../config/keys.dart';
 import '../im/entity/i_person_info_entity.dart';
-import '../mqtt/mqtt_server_client.dart';
 
 class GlobalModel extends ChangeNotifier {
   BuildContext context;
@@ -18,7 +20,7 @@ class GlobalModel extends ChangeNotifier {
   String account = ''; // 对应远程服务端的email
   String accessToken = '';
   String nickName = '';
-  String avatar = 'http://cdn.duitang.com/uploads/item/201409/18/20140918141220_N4Tic.thumb.700_0.jpeg';
+  String avatar = '';
   int gender = 0; // 0 male, 1 female
 
   // Language setting
@@ -40,6 +42,7 @@ class GlobalModel extends ChangeNotifier {
       this.context = context;
       Future.wait([
         logic.getCurrentLanguageCode(),
+        checkLoginStatus(),
       ]).then((value) {
         // 载入支持的语言
         currentLocale = Locale(currentLanguageCode[0], currentLanguageCode[1]);
@@ -52,6 +55,25 @@ class GlobalModel extends ChangeNotifier {
     if (!goToLogin)
       initInfo(); // 已登录，载入个人信息
     notifyListeners(); // 这个方法是通知那些用到GlobalModel对象的widget刷新用的。
+  }
+
+  Future<Config> checkLoginStatus() async {
+    // 存入本地数据库
+    Config config = new Config();
+    config = await config.get();
+    if(null == config) {
+      goToLogin = true;
+      return null;
+    }
+    else {
+      goToLogin = false;
+      userId = config.id;
+      accessToken = config.accessToken;
+      nickName = config.nickName;
+      avatar = config.avatar;
+      Mqtt.getInstance().subscribe("C2C/" + userId); // 订阅自己的主题
+      return config;
+    }
   }
 
   void initInfo() async {

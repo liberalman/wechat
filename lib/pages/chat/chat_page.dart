@@ -72,7 +72,8 @@ class _ChatPageState extends State<ChatPage> {
       return;
 
     // 用以下命令测试往当前用户发送消息，看看监听是否有效
-    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"2\",\"content\":\"yes,i know\"}"
+    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"5a5624e4ba18d80e4dd3162b\",\"content\":\"yes,i know\"}"
+    // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5a5624e4ba18d80e4dd3162b" -m "{\"sender\":\"5c566802128c810b3772f9e5\",\"content\":\"hello\"}"
     //订阅eventbus
     if (_msgStreamSubs == null) {
       //_msgStreamSubs = im.onMessage.listen((dynamic onData) => getChatMsgData());
@@ -193,16 +194,17 @@ class _ChatPageState extends State<ChatPage> {
       keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     }
     var body = [
+      // 双方的聊天消息列表
       chatData != null
           ? new ChatDetailsBody(
               scrollController: scrollController, chatData: chatData) // 创建聊天框界面
           : new Spacer(),
+      // 底部banner栏
       new ChatDetailsRow(
-        // 底部banner栏
-        voiceOnTap: () => onTapHandle(ButtonType.voice),
+        voiceOnTap: () => onTapHandle(ButtonType.voice), // 按切换语音输入的按钮后，触发切换语音输入框事件
         isVoice: _isVoice,
-        edit: edit,
-        more: new ChatMoreIcon(
+        edit: edit, // 文字输入框
+        more: new ChatMoreIcon( // 发送消息的按钮
           // 底部那个输入框栏
           value: _textController.text,
           onTap: () => _handleSubmittedData(_textController.text), // 发送消息

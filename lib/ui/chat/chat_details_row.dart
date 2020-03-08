@@ -62,15 +62,17 @@ class ChatDetailsRowState extends State<ChatDetailsRow> {
         child: new Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            // 切换语音输入的按钮
             new InkWell(
               child: new Image.asset('assets/images/chat/ic_voice.webp',
                   width: 25, color: mainTextColor),
               onTap: () {
                 if (widget.voiceOnTap != null) {
-                  widget.voiceOnTap();
+                  widget.voiceOnTap(); // 触发切换语音输入框的操作
                 }
               },
             ),
+            // 语音输入框，按住不松手录制和发送语音
             new Expanded(
               child: new Container(
                 margin: const EdgeInsets.only(
@@ -87,6 +89,7 @@ class ChatDetailsRowState extends State<ChatDetailsRow> {
                     : new LayoutBuilder(builder: widget.edit),
               ),
             ),
+            // 表情输入
             new InkWell(
               child: new Image.asset('assets/images/chat/ic_Emotion.webp',
                   width: 30, fit: BoxFit.cover),

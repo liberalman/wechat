@@ -42,12 +42,5 @@ class ProviderConfig {
     );
   }
 
-  ChangeNotifierProvider<ConversationModel> getConversations(Widget child) {
-    return ChangeNotifierProvider<ConversationModel>(
-      builder: (context) => ConversationModel(),
-      child: child,
-    );
-  }
-
   ProviderConfig._internal();
 }

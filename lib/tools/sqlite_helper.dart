@@ -69,6 +69,13 @@ sudo find / -name flashgo.db
         create_time INTEGER,
         update_time INTEGER);
     ''');
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS friend (
+        id TEXT PRIMARY KEY,
+        nick_name TEXT,
+        avatar TEXT,
+        expires_at INTEGER);
+    ''');
     /*await db.transaction((txn) async {
       int id1 = await txn.rawInsert("INSERT INTO conversation(room_id,title,type,create_time,update_time) values('5c566802128c810b3772f9e5','Andy','C2C',datetime('now'),datetime('now'))");
       print('inserted1: $id1');
