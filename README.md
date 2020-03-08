@@ -16,7 +16,10 @@ im/model/chat_list.dart 获取对话列表。
 im/model/conversation_handle.dart 获取对话列表，数据初始化。
 im/model/chat_data.dart 聊天消息数据
 
-ui/chat/my_conversation_view.dart 首页聊天列表
+
+# 聊天
+pages/home/home_page.dart 首页,root
+    |_ ui/chat/my_conversation_view.dart 首页聊天列表
 
 
 pages/chat/chat_page.dart 聊天窗口外框

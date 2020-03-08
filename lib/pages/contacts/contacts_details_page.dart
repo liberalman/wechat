@@ -16,6 +16,7 @@ import '../../tools/wechat_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../ui/dialog/show_toast.dart';
 
+// 联系人详情页面
 class ContactsDetailsPage extends StatefulWidget {
   final String avatar, title, id;
 

@@ -1,12 +1,15 @@
+import 'package:sprintf/sprintf.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../tools/wechat_flutter.dart';
 import '../provider/global_model.dart';
+import '../im/model/user.dart';
+import 'dart:convert';
 
 Future<dynamic> getUsersProfile(List<String> users, {Callback callback}) async {
   try {
-    Map<String, String> map = {
+    /*Map<String, String> map = {
       "1": '{"userId":"1","nickname":"Tom","gender":0,'
           '"birthday":1583292499,"avatar":"http://cdn.duitang.com/uploads/item/201409/18/20140918141220_N4Tic.thumb.700_0.jpeg",'
           '"role":0,"gender":0,"level":1,"language":1,'
@@ -27,11 +30,31 @@ Future<dynamic> getUsersProfile(List<String> users, {Callback callback}) async {
       '5a5624e4ba18d80e4dd3162b': '{"userId":"5a5624e4ba18d80e4dd3162b","nickname":"Liberalman","gender":1,"birthday":1583292499,'
           '"avatar":"https://image.hicool.top/libertyblog/img/avatarher.jpg",'
           '"role":0,"level":1,"language":1,"allowType":1,"customInfo":{}}'
-    };
+    };*/
+    User user = new User();
     String str = "[ ";
     for (var id in users) {
-      if(null != map[id])
-        str += map[id] + ",";
+      var u = await user.find(id); // 先从本地sqlite找
+      if(null == u) {
+        u = new User();
+        // 从远程服务器获取，并存储到本地
+        var res = await GET("/user/" + id);
+        String result = res.toString();
+        if (result.contains('_id')) {
+          var obj = json.decode(result);
+          u.id = obj['_id'];
+          u.nickName = obj['nickname'];
+          u.avatar = obj['avatar'];
+          user.insert(u);
+        } else {
+          debugPrint('error::' + result);
+          continue;
+        }
+      }
+      str += sprintf('{"userId":"%s","nickname":"%s","gender":1,'
+          '"birthday":1583292499,"avatar":"%s","role":0,"level":1,'
+          '"language":1,"allowType":1,"customInfo":{}},',
+          [u.id, u.nickName, u.avatar]);
     }
     return str.substring(0, str.length - 1) + ']';
   } on PlatformException {

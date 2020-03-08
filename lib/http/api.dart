@@ -37,8 +37,11 @@ POST(String path, {Object formData}) async {
 
 //get请求
 GET(String path) async {
-  var url = Uri.https(API.ROOT, API.PATH + path);
-  var res = await http.post(url);
+  final accessToken = await SharedUtil.getInstance().getString(Keys.accessToken);
+  // var url = Uri.https(API.ROOT, API.PATH + path);
+  var res = await http.get("https://" + API.ROOT + API.PATH + path, headers: {
+    "Authorization": "Bearer " + accessToken
+  });
   if (200 == res.statusCode)
     return res.body;
   else

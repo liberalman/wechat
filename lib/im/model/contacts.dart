@@ -11,6 +11,7 @@ import '../../common/check.dart';
 import '../../config/const.dart';
 //import 'package:dim/pinyin/pinyin_helper.dart';
 
+// 好友列表
 class Contact {
   Contact({
     @required this.avatar,
@@ -37,11 +38,11 @@ class ContactsPageData {
     List<Contact> contacts = new List<Contact>();
     String avatar;
     String nickName;
-    String identifier;
+    String userId;
     String remark;
 
     final contactsData = await SharedUtil.getInstance().getString(Keys.contacts);
-    final userId = await SharedUtil.getInstance().getString(Keys.userId);
+    userId = await SharedUtil.getInstance().getString(Keys.userId);
     final result = await getContactsFriends(userId);
 
     getMethod(result) async {
@@ -51,7 +52,7 @@ class ContactsPageData {
         if (Platform.isIOS) {
           IContactInfoEntity model = IContactInfoEntity.fromJson(dataMap[i]);
           avatar = model.profile.avatar;
-          identifier = model.userId;
+          userId = model.userId;
           remark = await getRemarkMethod(model.userId, callback: (_) {});
           nickName = model.profile.nickname;
           nickName = !strNoEmpty(nickName) ? model.userId : nickName;
@@ -69,7 +70,7 @@ class ContactsPageData {
         } else {
           PersonInfoEntity model = PersonInfoEntity.fromJson(dataMap[i]);
           avatar = model.avatar;
-          identifier = model.userId;
+          userId = model.userId;
           remark = await getRemarkMethod(model.userId, callback: (_) {});
           nickName = model.nickName;
           nickName = !strNoEmpty(nickName) ? model.userId : nickName;

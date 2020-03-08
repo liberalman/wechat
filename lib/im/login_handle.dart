@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:wechat/tools/sqlite_helper.dart';
 import '../ui/dialog/show_toast.dart';
 import '../tools/shared_util.dart';
 import '../config/keys.dart';
@@ -12,6 +13,7 @@ import '../pages/login/login_begin_page.dart';
 import '../tools/wechat_flutter.dart';
 import '../http/api.dart';
 import '../mqtt/mqtt_server_client.dart';
+import './model/config.dart';
 
 Future<void> init(BuildContext context) async {
   try {
@@ -47,29 +49,40 @@ Future<void> login(BuildContext context, String account) async {
     }
 }
         */
-    var res = await POST_WITHOUT_LOGIN("/user/login",
-        formData: {
-          "grant_type": "password",
-          "username": account,
-          "password": "123456",
-          "client_id": "web",
-          "client_secret": "fskefgtarwdbawydrawpdpaiuiawdtg"
-        }
-    );
+    var res = await POST_WITHOUT_LOGIN("/user/login", formData: {
+      "grant_type": "password",
+      "username": account,
+      "password": "123456",
+      "client_id": "web",
+      "client_secret": "fskefgtarwdbawydrawpdpaiuiawdtg"
+    });
     String result = res.toString();
 
     if (result.contains('accessToken')) {
       var obj = json.decode(result);
+      model.accessToken = obj['accessToken'];
       model.nickName = obj['user']['name'];
       model.account = obj['user']['email'];
       model.userId = obj['user']['userId'];
-      model.accessToken = obj['accessToken'];
       model.avatar = obj['user']['avatar'];
       model.goToLogin = false;
-      await SharedUtil.getInstance().saveString(Keys.accessToken, model.accessToken);
-      await SharedUtil.getInstance().saveString(Keys.account, model.account);
+      // userId must set at first
       await SharedUtil.getInstance().saveString(Keys.userId, model.userId);
+      await SharedUtil.getInstance()
+          .saveString(Keys.accessToken, model.accessToken);
+      await SharedUtil.getInstance().saveString(Keys.account, model.account);
       await SharedUtil.getInstance().saveBoolean(Keys.hasLogged, true);
+
+      // 存入本地数据库
+      Config config = new Config(
+          id: model.userId,
+          accessToken: model.accessToken,
+          refreshToken: obj['refreshToken'],
+          avatar: model.avatar,
+          nickName: model.nickName,
+          expiresAt: DateTime.now().millisecondsSinceEpoch + 86400);
+      await config.insert(config);
+
       model.refresh(); // 刷新用户数据
       Mqtt.getInstance().subscribe("C2C/" + model.userId); // 订阅自己的主题
       await routePushAndRemove(new RootPage()); // 返回主页

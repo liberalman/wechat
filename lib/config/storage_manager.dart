@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wechat/tools/shared_util.dart';
+import '../tools/sqlite_helper.dart';
+import 'package:wechat/tools/sqlite_helper.dart';
 import './keys.dart';
 
 class StorageManager {
@@ -10,6 +12,7 @@ class StorageManager {
   // 数据初始化
   static init() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    SqliteHelper().initDb();
   }
 
   initAutoLogin() async {

@@ -14,46 +14,52 @@ class SharedUtil {
   }
 
   Future<String> getString(String key) async {
-    if (key == Keys.account) {
+    if (key == Keys.userId) {
       return StorageManager.sharedPreferences.getString(key);
     }
-    String account =
-        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    return StorageManager.sharedPreferences.getString(key + account);
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    return StorageManager.sharedPreferences.getString(key + userId);
   }
 
+  // userId must set at first
   Future saveString(String key, String value) async {
-    if (Keys.account == key) {
+    if (key == Keys.userId) {
       await StorageManager.sharedPreferences.setString(key, value);
+      return;
     }
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    await StorageManager.sharedPreferences.setString(key + userId, value);
   }
 
   Future saveInt(String key, int value) async {
-    String account =
-        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    await StorageManager.sharedPreferences.setInt(key + account, value);
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    await StorageManager.sharedPreferences.setInt(key + userId, value);
   }
 
   Future<List<String>> getStringList(String key) async {
-    String account =
-        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    return StorageManager.sharedPreferences.getStringList(key + account);
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    return StorageManager.sharedPreferences.getStringList(key + userId);
   }
 
   Future saveStringList(String key, List<String> list) async {
-    String account =
-        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    await StorageManager.sharedPreferences.setStringList(key + account, list);
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    await StorageManager.sharedPreferences.setStringList(key + userId, list);
   }
 
   Future saveBoolean(String key, bool value) async {
-    String account =
-        StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    await StorageManager.sharedPreferences.setBool(key + account, value);
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    await StorageManager.sharedPreferences.setBool(key + userId, value);
   }
 
   Future<bool> getBoolean(String key) async {
-    String account = StorageManager.sharedPreferences.getString(Keys.account) ?? "default";
-    return StorageManager.sharedPreferences.getBool(key + account) ?? false;
+    String userId =
+        StorageManager.sharedPreferences.getString(Keys.userId) ?? "default";
+    return StorageManager.sharedPreferences.getBool(key + userId) ?? false;
   }
 }

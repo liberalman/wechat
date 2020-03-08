@@ -68,7 +68,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> initPlatformState() async {
-    if (!mounted) return;
+    if (!mounted)
+      return;
 
     // 用以下命令测试往当前用户发送消息，看看监听是否有效
     // mosquitto_pub -h 140.143.134.114 -p 1883 -t "C2C/5c566802128c810b3772f9e5" -q 1 -m "{\"sender\":\"2\",\"content\":\"yes,i know\"}"

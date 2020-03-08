@@ -6,14 +6,14 @@ import '../../config/const.dart';
 
 // 首页聊天列表
 class MyConversationView extends StatefulWidget {
-  final String imageUrl;
+  final String avatar;
   final String title;
   final Map content;
   final Widget time;
   final bool isBorder;
 
   MyConversationView({
-    this.imageUrl,
+    this.avatar,
     this.title,
     this.content,
     this.time,
@@ -60,7 +60,7 @@ class _MyConversationViewState extends State<MyConversationView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           new ImageView(
-              img: widget.imageUrl,
+              img: widget.avatar,
               height: 50.0,
               width: 50.0,
               fit: BoxFit.cover),

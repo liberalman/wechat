@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import './model/chat.dart';
 import 'package:sprintf/sprintf.dart';
-
+import './conversation_handle.dart';
 import '../tools/wechat_flutter.dart';
 
 Future<dynamic> getDimMessages(String id,
@@ -70,6 +70,9 @@ Future<dynamic> getDimMessages(String id,
 
 Future<dynamic> addMessage(String sender, String roomId, String content) async {
   try {
+    // 如果首页聊天列表中没有显示和该用户的聊天项，则添加
+    addConversation(roomId, "C2C");
+    // 记录聊天信息
     Chat chat = new Chat(
         sender: sender,
         roomId: roomId,

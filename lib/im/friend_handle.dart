@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sprintf/sprintf.dart';
 import '../ui/dialog/show_toast.dart';
 import '../common/route.dart';
+import '../http/api.dart';
 
 typedef OnSuCc = void Function(bool v);
 
@@ -56,14 +59,32 @@ Future<dynamic> delFriend(String userName, BuildContext context,
 
 Future<dynamic> getContactsFriends(String userId) async {
   try {
-    var result = '[{"userId":"5a5624e4ba18d80e4dd3162b","addTime":1583292499,"addWording":"1","remark":"x","addSource":"",'
+    /*var result = '[{"userId":"5a5624e4ba18d80e4dd3162b","addTime":1583292499,"addWording":"1","remark":"x","addSource":"",'
         '"profile":{"nickname":"Liberalman","avatar":"https://image.hicool.top/libertyblog/img/avatarher.jpg","gender":0,'
         '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
         '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} },'
         '{"userId":"5c566802128c810b3772f9e5","addTime":1583292499,"addWording":"1","remark":"y","addSource":"",'
         '"profile":{"nickname":"Andy","avatar":"https://1.gravatar.com/avatar/a3e54af3cb6e157e496ae430aed4f4a3?s=96&d=mm","gender":0,'
         '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
-        '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} }]'; // identifier
+        '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{} }]';*/
+    var res = await GET("/friends?page=1&size=2&sort_name=created&sort_order=false");
+    String str = res.toString();
+    String result = "[ ";
+
+    if (str.contains('list')) {
+      var list = json.decode(str)['list'];
+      for( var friend in list ) {
+        result += sprintf(
+              '{"userId": "%s", "addTime":1583292499,"addWording":"1","addSource":"",'
+                  '"profile":{"nickname":"%s","avatar":"%s","gender":0,'
+                  '"birthday":1583292499,"role":0,"gender":1,"level":1,"language":1,'
+                  '"allowType":1,"customInfo":{}},"groups":[],"customInfo":{},"remark":"%s" },',
+              [friend['_id'], friend['nickname'], friend['avatar'], friend['description']]);
+      }
+      result = result.substring(0, result.length - 1) + ']';
+    } else {
+      debugPrint('获取好友列表  失败，返回 ' + result);
+    }
     return result;
   } on PlatformException {
     debugPrint('获取好友列表  失败');
